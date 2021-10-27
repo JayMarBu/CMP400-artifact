@@ -10,8 +10,9 @@ namespace JEngine
 	private:
 		GLFWwindow* m_window;
 
-		const int height;
-		const int width;
+		int height;
+		int width;
+		bool frameBufferResized = false;
 
 		std::string name;
 
@@ -29,7 +30,12 @@ namespace JEngine
 
 		inline VkExtent2D getExtent() const { return { static_cast<uint32_t>(width), static_cast<uint32_t>(height) }; }
 
+		bool WasWindowResized() { return frameBufferResized; }
+		void ResetWindowResizedFlag() { frameBufferResized = false; }
+
 	private:
 		void InitWindow();
+
+		static void FrameBufferResizedCallback(GLFWwindow* window, int w, int h);
 	};
 }

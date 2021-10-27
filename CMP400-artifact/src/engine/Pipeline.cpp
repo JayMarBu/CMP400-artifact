@@ -11,17 +11,14 @@ JEngine::Pipeline::Pipeline(
 	CreateGraphicsPipeline(vert_filepath, frag_filepath, configInfo);
 }
 
-void JEngine::Pipeline::DefaultPipelineConfigInfo(PipelineConfigInfo& configInfo, uint32_t width, uint32_t height)
+void JEngine::Pipeline::DefaultPipelineConfigInfo(PipelineConfigInfo& configInfo)
 {
-	configInfo.viewport.x = 0.0f;
-	configInfo.viewport.y = 0.0f;
-	configInfo.viewport.width = static_cast<float>(width);
-	configInfo.viewport.height = static_cast<float>(height);
-	configInfo.viewport.minDepth = 0.0f;
-	configInfo.viewport.maxDepth = 1.0f;
+	configInfo.viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 
-	configInfo.scissor.offset = { 0, 0 };
-	configInfo.scissor.extent = { width, height };
+	configInfo.viewportInfo.viewportCount = 1;
+	configInfo.viewportInfo.pViewports = nullptr;
+	configInfo.viewportInfo.scissorCount = 1;
+	configInfo.viewportInfo.pScissors = nullptr;
 
 	configInfo.inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 	configInfo.inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
@@ -76,6 +73,12 @@ void JEngine::Pipeline::DefaultPipelineConfigInfo(PipelineConfigInfo& configInfo
 	configInfo.depthStencilInfo.stencilTestEnable = VK_FALSE;
 	configInfo.depthStencilInfo.front = {};  // Optional
 	configInfo.depthStencilInfo.back = {};   // Optional
+
+	configInfo.dynamicStateEnables = { VK_DYNAMIC_STATE_VIEWPORT, VK_DYNAMIC_STATE_SCISSOR };
+	configInfo.dynamicStateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
+	configInfo.dynamicStateInfo.pDynamicStates = configInfo.dynamicStateEnables.data();
+	configInfo.dynamicStateInfo.dynamicStateCount = static_cast<uint32_t>(configInfo.dynamicStateEnables.size());
+	configInfo.dynamicStateInfo.flags = 0;
 }
 
 void JEngine::Pipeline::Bind(VkCommandBuffer commandBuffer)
@@ -157,17 +160,6 @@ void JEngine::Pipeline::CreateGraphicsPipeline(const std::string& vert_filepath,
 	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
 	vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
-	// create Viewport info struct
-	// combine viewport(s)& scissor rectangle(s) into viewport state struct.
-	// NOTE : this struct can take an array of view ports and SR's
-	// however a GPU feature is required to do this.
-	VkPipelineViewportStateCreateInfo viewportInfo{};
-	viewportInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-	viewportInfo.viewportCount = 1;
-	viewportInfo.pViewports = &configInfo.viewport;
-	viewportInfo.scissorCount = 1;
-	viewportInfo.pScissors = &configInfo.scissor;
-
 	// create pipeline info struct
 	VkGraphicsPipelineCreateInfo pipelineInfo{};
 	pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
@@ -176,12 +168,12 @@ void JEngine::Pipeline::CreateGraphicsPipeline(const std::string& vert_filepath,
 	// reference all pipeline create structs created above
 	pipelineInfo.pVertexInputState = &vertexInputInfo;
 	pipelineInfo.pInputAssemblyState = &configInfo.inputAssemblyInfo;
-	pipelineInfo.pViewportState = &viewportInfo;
+	pipelineInfo.pViewportState = &configInfo.viewportInfo;
 	pipelineInfo.pRasterizationState = &configInfo.rasterizationInfo;
 	pipelineInfo.pMultisampleState = &configInfo.multisampleInfo;
 	pipelineInfo.pDepthStencilState = &configInfo.depthStencilInfo;
 	pipelineInfo.pColorBlendState = &configInfo.colorBlendInfo;
-	pipelineInfo.pDynamicState = nullptr; // Optional
+	pipelineInfo.pDynamicState = &configInfo.dynamicStateInfo;
 	// attach handle to pipeline layout
 	pipelineInfo.layout = configInfo.pipelineLayout;
 	// attach render pass

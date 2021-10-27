@@ -7,6 +7,20 @@ namespace JEngine {
 	SwapChain::SwapChain(JEngine::Device& deviceRef, VkExtent2D extent)
 		: m_device{ deviceRef }, m_windowExtent{ extent }
 	{
+		Init();
+	}
+
+
+	SwapChain::SwapChain(JEngine::Device& deviceRef, VkExtent2D extent, std::shared_ptr<JEngine::SwapChain> previous)
+		: m_device{ deviceRef }, m_windowExtent{ extent }, m_oldSwapChain{previous}
+	{
+		Init();
+
+		m_oldSwapChain = nullptr;
+	}
+
+	void SwapChain::Init()
+	{
 		CreateSwapChain();
 		CreateImageViews();
 		CreateRenderPass();
@@ -120,7 +134,7 @@ namespace JEngine {
 		return result;
 	}
 
-	void SwapChain::CreateSwapChain() 
+	void SwapChain::CreateSwapChain()
 	{
 		SwapChainSupportDetails swapChainSupport = m_device.GetSwapChainSupport();
 
@@ -165,7 +179,7 @@ namespace JEngine {
 		createInfo.presentMode = presentMode;
 		createInfo.clipped = VK_TRUE;
 
-		createInfo.oldSwapchain = VK_NULL_HANDLE;
+		createInfo.oldSwapchain = m_oldSwapChain == nullptr ? VK_NULL_HANDLE : m_oldSwapChain->m_swapChain;
 
 		SAFE_RUN_VULKAN_FUNC(vkCreateSwapchainKHR(m_device.device(), &createInfo, nullptr, &m_swapChain), "failed to create swap chain!");
 

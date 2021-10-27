@@ -6,6 +6,12 @@
 
 namespace JEngine
 {
+	struct SimplePushConstantData
+	{
+		glm::vec2 offset;
+		alignas(16) glm::vec3 colour;
+	};
+
 	class App
 	{
 		// Members ********************************************************************************
@@ -16,12 +22,7 @@ namespace JEngine
 	private:
 		JEngine::Window m_window{WIDTH,HEIGHT,"JEngine window"};
 		JEngine::Device m_device{ m_window };
-		JEngine::SwapChain m_swapChain{m_device, m_window.getExtent()};
-		/*JEngine::Pipeline m_pipeline{ 
-			m_device,
-			"shaders/simple_shader/simple_shader.vert.spv",
-			"shaders/simple_shader/simple_shader.frag.spv",
-			Pipeline::DefaultPipelineConfigInfo(WIDTH,HEIGHT)};*/
+		std::unique_ptr<JEngine::SwapChain> m_swapChain;
 
 		std::unique_ptr<JEngine::Pipeline> m_pipeline;
 		VkPipelineLayout m_pipelineLayout;
@@ -42,6 +43,10 @@ namespace JEngine
 		void CreatePipelineLayout();
 		void CreatePipeline();
 		void CreateCommandBuffers();
+		void FreeCommandBuffers();
+
+		void RecreateSwapChain();
+		void RecordCommandBuffer(uint32_t imageIndex);
 
 		void DrawFrame();
 	};

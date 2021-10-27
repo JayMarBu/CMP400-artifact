@@ -31,6 +31,7 @@ namespace JEngine {
 		VkExtent2D m_windowExtent;
 
 		VkSwapchainKHR m_swapChain;
+		std::shared_ptr<JEngine::SwapChain> m_oldSwapChain;
 
 		std::vector<VkSemaphore> m_imageAvailableSemaphores;
 		std::vector<VkSemaphore> m_renderFinishedSemaphores;
@@ -41,9 +42,10 @@ namespace JEngine {
 		// Methods ********************************************************************************
 	public:
 		SwapChain(JEngine::Device& deviceRef, VkExtent2D windowExtent);
+		SwapChain(JEngine::Device& deviceRef, VkExtent2D windowExtent, std::shared_ptr<JEngine::SwapChain> previous);
 		~SwapChain();
 
-		REMOVE_COPY_CONSTRUCTOR(SwapChain)
+		REMOVE_COPY_CONSTRUCTOR(SwapChain);
 
 		VkFramebuffer frameBuffer(int index) { return m_swapChainFramebuffers[index]; }
 		VkRenderPass renderPass() { return m_renderPass; }
@@ -63,6 +65,7 @@ namespace JEngine {
 		VkResult SubmitCommandBuffers(const VkCommandBuffer* buffers, uint32_t* imageIndex);
 
 	private:
+		void Init();
 		void CreateSwapChain();
 		void CreateImageViews();
 		void CreateDepthResources();
