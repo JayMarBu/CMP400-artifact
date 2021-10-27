@@ -16,13 +16,20 @@
 #include <fstream>
 #include <limits>
 #include <memory>
+#include <cstring>
 
 // Vulkan *****************************************************************************************
 #include <vulkan/vulkan.h>
 
 // GLM ********************************************************************************************
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
+//#include <glm/vec4.hpp>
+//#include <glm/mat4x4.hpp>
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <glm/glm.hpp>
 
 // GLFW *******************************************************************************************
 //#include <GLFW/glfw3.h>
+
+// JEngine ****************************************************************************************
+#include "utils/Utils.h"

@@ -535,10 +535,7 @@ namespace JEngine
 		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
 		// create buffer
-		if (vkCreateBuffer(m_device, &bufferInfo, nullptr, &buffer) != VK_SUCCESS) 
-		{
-			throw std::runtime_error("failed to create vertex buffer!");
-		}
+		SAFE_RUN_VULKAN_FUNC(vkCreateBuffer(m_device, &bufferInfo, nullptr, &buffer), "failed to create vertex buffer!");
 
 		// get buffer memory requirements
 		VkMemoryRequirements memRequirements;
@@ -551,10 +548,7 @@ namespace JEngine
 		allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, properties);
 
 		// allocate buffer memory
-		if (vkAllocateMemory(m_device, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) 
-		{
-			throw std::runtime_error("failed to allocate vertex buffer memory!");
-		}
+		SAFE_RUN_VULKAN_FUNC(vkAllocateMemory(m_device, &allocInfo, nullptr, &bufferMemory), "failed to allocate vertex buffer memory!")
 
 		// bind buffer to memory location
 		vkBindBufferMemory(m_device, buffer, bufferMemory, 0);

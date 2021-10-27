@@ -3,6 +3,7 @@
 
 JEngine::App::App()
 {
+	LoadModels();
 	CreatePipelineLayout();
 	CreatePipeline();
 	CreateCommandBuffers();
@@ -22,6 +23,18 @@ void JEngine::App::run()
 	}
 
 	vkDeviceWaitIdle(m_device);
+}
+
+void JEngine::App::LoadModels()
+{
+	std::vector<Model::Vertex> vertices
+	{
+		{{0.0f, -0.5f}, {1,0,0}},
+		{{0.5f, 0.5f}, {0,1,0}},
+		{{-0.5f, 0.5f}, {0,0,1}}
+	};
+
+	m_model = std::make_unique<Model>(m_device, vertices);
 }
 
 void JEngine::App::CreatePipelineLayout()
@@ -89,7 +102,8 @@ void JEngine::App::CreateCommandBuffers()
 		vkCmdBeginRenderPass(m_commandBuffers[i], &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
 		m_pipeline->Bind(m_commandBuffers[i]);
-		vkCmdDraw(m_commandBuffers[i], 3, 1, 0, 0);
+		m_model->Bind(m_commandBuffers[i]);
+		m_model->Draw(m_commandBuffers[i]);
 
 		vkCmdEndRenderPass(m_commandBuffers[i]);
 		SAFE_RUN_VULKAN_FUNC(vkEndCommandBuffer(m_commandBuffers[i]), "failed to end command buffer");

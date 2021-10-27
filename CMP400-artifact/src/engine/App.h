@@ -2,7 +2,7 @@
 #include "engine/Window.h"
 #include "engine/Pipeline.h"
 #include "engine/SwapChain.h"
-#include "utils/Utils.h"
+#include "engine/Model.h"
 
 namespace JEngine
 {
@@ -27,6 +27,8 @@ namespace JEngine
 		VkPipelineLayout m_pipelineLayout;
 		std::vector<VkCommandBuffer> m_commandBuffers;
 
+		std::unique_ptr<JEngine::Model> m_model;
+
 		// Methods ********************************************************************************
 	public:
 		App();
@@ -36,7 +38,7 @@ namespace JEngine
 
 		void run();
 	private:
-
+		void LoadModels();
 		void CreatePipelineLayout();
 		void CreatePipeline();
 		void CreateCommandBuffers();

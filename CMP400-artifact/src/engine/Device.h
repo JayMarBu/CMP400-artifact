@@ -50,8 +50,7 @@ namespace JEngine {
 		~Device();
 
 		// Not copyable or movable
-		Device(const Device&) = delete;
-		void operator=(const Device&) = delete;
+		REMOVE_COPY_CONSTRUCTOR(Device)
 		Device(Device&&) = delete;
 		Device& operator=(Device&&) = delete;
 

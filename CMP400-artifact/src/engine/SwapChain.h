@@ -43,8 +43,7 @@ namespace JEngine {
 		SwapChain(JEngine::Device& deviceRef, VkExtent2D windowExtent);
 		~SwapChain();
 
-		SwapChain(const SwapChain&) = delete;
-		void operator=(const SwapChain&) = delete;
+		REMOVE_COPY_CONSTRUCTOR(SwapChain)
 
 		VkFramebuffer frameBuffer(int index) { return m_swapChainFramebuffers[index]; }
 		VkRenderPass renderPass() { return m_renderPass; }

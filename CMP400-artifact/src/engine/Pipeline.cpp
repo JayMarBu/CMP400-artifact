@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "engine/Pipeline.h"
-#include "utils/Utils.h"
 
 JEngine::Pipeline::Pipeline(
 	JEngine::Device& device,
@@ -151,12 +150,12 @@ void JEngine::Pipeline::CreateGraphicsPipeline(const std::string& vert_filepath,
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 
-	//auto bindingDescription = Vertex::getBindingDescription();
-	//auto attributeDescriptions = Vertex::getAttributeDescriptions();
-	vertexInputInfo.vertexBindingDescriptionCount = 0;
-	vertexInputInfo.pVertexBindingDescriptions = nullptr; // &bindingDescription;
-	vertexInputInfo.vertexAttributeDescriptionCount = 0;//static_cast<uint32_t>(attributeDescriptions.size());;
-	vertexInputInfo.pVertexAttributeDescriptions = nullptr;//attributeDescriptions.data();
+	auto bindingDescription = Model::Vertex::getBindingDescriptions();
+	auto attributeDescriptions = Model::Vertex::getAttributeDescriptions();
+	vertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescription.size());
+	vertexInputInfo.pVertexBindingDescriptions = bindingDescription.data();
+	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+	vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 	// create Viewport info struct
 	// combine viewport(s)& scissor rectangle(s) into viewport state struct.
@@ -192,17 +191,8 @@ void JEngine::Pipeline::CreateGraphicsPipeline(const std::string& vert_filepath,
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 	pipelineInfo.basePipelineIndex = -1; // Optional
 
-	//SAFE_RUN_VULKAN_FUNC(vkCreateGraphicsPipelines(m_device.device(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_graphicsPipeline), "failed to create graphics pipeline!");
-
 	// create graphics pipeline
-	if (vkCreateGraphicsPipelines(m_device.device(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_graphicsPipeline) != VK_SUCCESS) 
-	{
-		throw std::runtime_error("failed to create graphics pipeline!");
-	}
-
-	// clean up shader modules
-	//vkDestroyShaderModule(m_device.device(), vertShaderModule, nullptr);
-	//vkDestroyShaderModule(m_device.device(), fragShaderModule, nullptr);
+	SAFE_RUN_VULKAN_FUNC(vkCreateGraphicsPipelines(m_device.device(), VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_graphicsPipeline), "failed to create graphics pipeline!");
 }
 
 void JEngine::Pipeline::CreateShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/Device.h"
+#include "engine/Model.h"
 
 namespace JEngine
 {
@@ -103,8 +104,7 @@ namespace JEngine
 		Pipeline(JEngine::Device& device, const std::string& vert_filepath, const std::string& frag_filepath, const PipelineConfigInfo& configInfo);
 		~Pipeline();
 
-		Pipeline(const Pipeline&) = delete;
-		Pipeline operator=(const Pipeline&) = delete;
+		REMOVE_COPY_CONSTRUCTOR(Pipeline)
 
 		static void DefaultPipelineConfigInfo(PipelineConfigInfo& configInfo, uint32_t width, uint32_t height);
 
