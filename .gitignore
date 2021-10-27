@@ -5,6 +5,7 @@
 
 #My project spesific ignores
 CMP400-artifact/[Ee]xternal/
+*.spv
 
 # User-specific files
 *.rsuser
