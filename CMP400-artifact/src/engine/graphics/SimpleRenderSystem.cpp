@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "engine/graphics/SimpleRenderSystem.h"
 
+#include "engine/Camera.h"
+
 namespace JEngine
 {
 	struct SimplePushConstantData
 	{
-		glm::mat2 transform{ 1.f };
-		glm::vec2 offset;
+		glm::mat4 transform{ 1.f };
 		alignas(16) glm::vec3 colour;
 	};
 
@@ -23,17 +24,21 @@ namespace JEngine
 		vkDestroyPipelineLayout(m_device, m_pipelineLayout, nullptr);
 	}
 
-	void SimpleRenderSystem::RenderGameObjects(VkCommandBuffer commandBuffer, std::vector<GameObject>& gameObjects)
+	void SimpleRenderSystem::RenderGameObjects(VkCommandBuffer commandBuffer, std::vector<GameObject>& gameObjects, const JEngine::Camera& camera, const float& dt)
 	{
 		m_pipeline->Bind(commandBuffer);
 
+		auto projectionView = camera.GetProjection() * camera.GetView();
+
 		for (auto& obj : gameObjects)
 		{
+			obj.transform.rotation.y = glm::mod(obj.transform.rotation.y + (1.f*dt), glm::two_pi<float>());
+			obj.transform.rotation.x = glm::mod(obj.transform.rotation.x + (0.1f*dt), glm::two_pi<float>());
+
 			SimplePushConstantData pushData{};
 
-			pushData.offset = obj.transform.translation;
 			pushData.colour = obj.colour;
-			pushData.transform = obj.transform;
+			pushData.transform = projectionView * obj.transform.mat4();
 
 			vkCmdPushConstants(
 				commandBuffer,
@@ -69,7 +74,7 @@ namespace JEngine
 
 	void SimpleRenderSystem::CreatePipeline(VkRenderPass renderPass)
 	{
-		assert(m_pipelineLayout != nullptr, "cannot create pipeline before pipeline layout");
+		assert(m_pipelineLayout != nullptr && "cannot create pipeline before pipeline layout");
 
 		PipelineConfigInfo pipelineConfig{};
 		JEngine::Pipeline::DefaultPipelineConfigInfo(pipelineConfig);

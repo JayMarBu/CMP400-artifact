@@ -164,6 +164,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\engine\App.cpp" />
+    <ClCompile Include="src\engine\Camera.cpp" />
     <ClCompile Include="src\engine\graphics\Renderer.cpp" />
     <ClCompile Include="src\engine\graphics\SimpleRenderSystem.cpp" />
     <ClCompile Include="src\engine\system\Device.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="src\engine\graphics\Model.cpp" />
     <ClCompile Include="src\engine\graphics\Pipeline.cpp" />
     <ClCompile Include="src\engine\graphics\SwapChain.cpp" />
+    <ClCompile Include="src\engine\system\FrameTimer.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -186,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\engine\App.h" />
+    <ClInclude Include="src\engine\Camera.h" />
     <ClInclude Include="src\engine\graphics\Renderer.h" />
     <ClInclude Include="src\engine\graphics\SimpleRenderSystem.h" />
     <ClInclude Include="src\engine\system\Device.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="src\engine\graphics\Model.h" />
     <ClInclude Include="src\engine\graphics\Pipeline.h" />
     <ClInclude Include="src\engine\graphics\SwapChain.h" />
+    <ClInclude Include="src\engine\system\FrameTimer.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\engine\system\Window.h" />
     <ClInclude Include="src\utils\Utils.h" />

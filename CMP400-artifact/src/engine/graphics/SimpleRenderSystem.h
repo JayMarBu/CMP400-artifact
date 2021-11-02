@@ -6,6 +6,8 @@
 
 namespace JEngine
 {
+	class Camera;
+
 	class SimpleRenderSystem
 	{
 		// Members ********************************************************************************
@@ -24,7 +26,7 @@ namespace JEngine
 
 		REMOVE_COPY_CONSTRUCTOR(SimpleRenderSystem);
 
-		void RenderGameObjects(VkCommandBuffer commandBuffer, std::vector<GameObject>& gameObjects);
+		void RenderGameObjects(VkCommandBuffer commandBuffer, std::vector<GameObject>& gameObjects, const class JEngine::Camera& camera, const float& dt);
 
 	private:
 		void CreatePipelineLayout();

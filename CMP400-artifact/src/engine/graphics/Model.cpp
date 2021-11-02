@@ -22,7 +22,7 @@ namespace JEngine
 		// set position attribute description
 		attributeDescriptions[0].binding = 0;
 		attributeDescriptions[0].location = 0;
-		attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+		attributeDescriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
 		attributeDescriptions[0].offset = offsetof(Vertex, position);
 
 		// set colour attribute description
@@ -63,7 +63,7 @@ namespace JEngine
 	{
 		m_vertexCount = static_cast<uint32_t>(vertices.size());
 
-		assert(m_vertexCount >= 3, "Vertex count must be at least 3");
+		assert(m_vertexCount >= 3 && "Vertex count must be at least 3");
 
 		VkDeviceSize bufferSize = sizeof(vertices[0]) * m_vertexCount;
 

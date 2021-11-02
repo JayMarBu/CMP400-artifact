@@ -3,6 +3,7 @@
 #include "engine/graphics/Renderer.h"
 #include "engine/graphics/Model.h"
 #include "engine/GameObject.h"
+#include "engine/system/FrameTimer.h"
 
 namespace JEngine
 {
@@ -17,6 +18,8 @@ namespace JEngine
 		JEngine::Window m_window{WIDTH,HEIGHT,"JEngine window"};
 		JEngine::Device m_device{ m_window };
 		JEngine::Renderer m_renderer{ m_window, m_device };
+
+		JEngine::FrameTimer m_timer;
 
 		std::vector<GameObject> m_gameObjects;
 

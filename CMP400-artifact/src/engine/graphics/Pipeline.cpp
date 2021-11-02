@@ -115,8 +115,8 @@ std::vector<char> JEngine::Pipeline::ReadFile(const std::string& filepath)
 
 void JEngine::Pipeline::CreateGraphicsPipeline(const std::string& vert_filepath, const std::string& frag_filepath, const PipelineConfigInfo& configInfo)
 {
-	assert(configInfo.pipelineLayout != VK_NULL_HANDLE, "cannot create graphics pipeline:: no pipelineLayout provided in configInfo");
-	assert(configInfo.renderPass != VK_NULL_HANDLE, "cannot create graphics pipeline:: no renderPass provided in configInfo");
+	assert(configInfo.pipelineLayout != VK_NULL_HANDLE && "cannot create graphics pipeline:: no pipelineLayout provided in configInfo");
+	assert(configInfo.renderPass != VK_NULL_HANDLE && "cannot create graphics pipeline:: no renderPass provided in configInfo");
 
 	auto vertCode = ReadFile(vert_filepath);
 	auto fragCode = ReadFile(frag_filepath);

@@ -18,7 +18,7 @@ namespace JEngine
 
 	VkCommandBuffer Renderer::BeginFrame()
 	{
-		assert(!m_isFrameStarted, "Another frame is already in progress, EndFrame() has not yet been called for the previous frame");
+		assert(!m_isFrameStarted && "Another frame is already in progress, EndFrame() has not yet been called for the previous frame");
 
 		auto result = m_swapChain->AcquireNextImage(&m_currentImageIndex);
 		if (result == VK_ERROR_OUT_OF_DATE_KHR)
@@ -44,7 +44,7 @@ namespace JEngine
 
 	void Renderer::EndFrame()
 	{
-		assert(m_isFrameStarted, "cant end frame while frame is not in progress. use BeginFrame() to start new frame");
+		assert(m_isFrameStarted && "cant end frame while frame is not in progress. use BeginFrame() to start new frame");
 
 		auto commandBuffer = GetCurrentCommandBuffer();
 
@@ -66,8 +66,8 @@ namespace JEngine
 
 	void Renderer::BeginSwapChainRenderPass(VkCommandBuffer commandBuffer)
 	{
-		assert(m_isFrameStarted, "can't begin render pass while frame is not in progress. use BeginFrame() to start new frame");
-		assert(commandBuffer == GetCurrentCommandBuffer(), "can't begin render pass on command buffer from a different frame");
+		assert(m_isFrameStarted && "can't begin render pass while frame is not in progress. use BeginFrame() to start new frame");
+		assert(commandBuffer == GetCurrentCommandBuffer() && "can't begin render pass on command buffer from a different frame");
 
 		VkRenderPassBeginInfo renderPassInfo{};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
@@ -101,8 +101,8 @@ namespace JEngine
 
 	void Renderer::EndSwapChainRenderPass(VkCommandBuffer commandBuffer)
 	{
-		assert(m_isFrameStarted, "can't end render pass while frame is not in progress. use BeginFrame() to start new frame");
-		assert(commandBuffer == GetCurrentCommandBuffer(), "can't end render pass on command buffer from a different frame");
+		assert(m_isFrameStarted && "can't end render pass while frame is not in progress. use BeginFrame() to start new frame");
+		assert(commandBuffer == GetCurrentCommandBuffer() && "can't end render pass on command buffer from a different frame");
 
 		vkCmdEndRenderPass(commandBuffer);
 	}
