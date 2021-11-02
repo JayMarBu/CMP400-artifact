@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engine/Window.h"
+#include "engine/system/Window.h"
 
 namespace JEngine {
 

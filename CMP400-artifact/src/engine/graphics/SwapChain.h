@@ -1,7 +1,7 @@
 #pragma once
 #pragma once
 
-#include "engine/Device.h"
+#include "engine/system/Device.h"
 
 // vulkan headers
 //#include <vulkan/vulkan.h>
@@ -16,6 +16,7 @@ namespace JEngine {
 
 	private:
 		VkFormat m_swapChainImageFormat;
+		VkFormat m_swapChainDepthFormat;
 		VkExtent2D m_swapChainExtent;
 
 		std::vector<VkFramebuffer> m_swapChainFramebuffers;
@@ -63,6 +64,11 @@ namespace JEngine {
 
 		VkResult AcquireNextImage(uint32_t* imageIndex);
 		VkResult SubmitCommandBuffers(const VkCommandBuffer* buffers, uint32_t* imageIndex);
+
+		inline bool IsSwapChainFormatCompatible(const SwapChain& swapChain) const
+		{
+			return swapChain.m_swapChainDepthFormat == m_swapChainDepthFormat && swapChain.m_swapChainImageFormat == m_swapChainImageFormat;
+		}
 
 	private:
 		void Init();

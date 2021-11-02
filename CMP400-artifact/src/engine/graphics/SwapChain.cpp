@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "engine/SwapChain.h"
+#include "engine/graphics/SwapChain.h"
 
 
 namespace JEngine {
@@ -298,6 +298,7 @@ namespace JEngine {
 	void SwapChain::CreateDepthResources() 
 	{
 		VkFormat depthFormat = FindDepthFormat();
+		m_swapChainDepthFormat = depthFormat;
 		VkExtent2D swapChainExtent = extent();
 
 		m_depthImages.resize(imageCount());

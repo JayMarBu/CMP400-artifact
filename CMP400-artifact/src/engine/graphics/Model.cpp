@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "engine/Model.h"
+#include "engine/graphics/Model.h"
 
 namespace JEngine
 {

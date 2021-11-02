@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "engine/Window.h"
+#include "engine/system/Window.h"
 
 JEngine::Window::Window(const int& w, const int& h, const std::string& _name)
 	: width(w), height(h), name(_name)
