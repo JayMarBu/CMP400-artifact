@@ -3,6 +3,7 @@
 #include "engine/graphics/Pipeline.h"
 #include "engine/graphics/Model.h"
 #include "engine/GameObject.h"
+#include "engine/graphics/FrameInfo.h"
 
 namespace JEngine
 {
@@ -21,15 +22,15 @@ namespace JEngine
 
 		// Methods ********************************************************************************
 	public:
-		SimpleRenderSystem(Device& _device, VkRenderPass _renderPass);
+		SimpleRenderSystem(Device& _device, VkRenderPass _renderPass, VkDescriptorSetLayout descriptorSet);
 		~SimpleRenderSystem();
 
 		REMOVE_COPY_CONSTRUCTOR(SimpleRenderSystem);
 
-		void RenderGameObjects(VkCommandBuffer commandBuffer, std::vector<GameObject>& gameObjects, const class JEngine::Camera& camera, const float& dt);
+		void RenderGameObjects(FrameInfo& fInfo, std::vector<GameObject>& gameObjects);
 
 	private:
-		void CreatePipelineLayout();
+		void CreatePipelineLayout(VkDescriptorSetLayout descriptorSet);
 		void CreatePipeline(VkRenderPass _renderPass);
 	};
 

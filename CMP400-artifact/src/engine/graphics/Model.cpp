@@ -51,25 +51,17 @@ namespace JEngine
 
 	Model::~Model()
 	{
-		vkDestroyBuffer(m_device, m_vertexBuffer, nullptr);
-		vkFreeMemory(m_device, m_vertexBufferMemory, nullptr);
-
-		if (m_hasIndexBuffer)
-		{
-			vkDestroyBuffer(m_device, m_indexBuffer, nullptr);
-			vkFreeMemory(m_device, m_indexBufferMemory, nullptr);
-		}
 	}
 
 	void Model::Bind(VkCommandBuffer commandBuffer)
 	{
-		VkBuffer buffers[] = { m_vertexBuffer };
+		VkBuffer buffers[] = { m_vertexBuffer->GetBuffer() };
 		VkDeviceSize offsets[] = { 0 };
 		vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
 
 		if (m_hasIndexBuffer)
 		{
-			vkCmdBindIndexBuffer(commandBuffer, m_indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+			vkCmdBindIndexBuffer(commandBuffer, m_indexBuffer->GetBuffer(), 0, VK_INDEX_TYPE_UINT32);
 		}
 	}
 
@@ -105,34 +97,28 @@ namespace JEngine
 
 		VkDeviceSize bufferSize = sizeof(vertices[0]) * m_vertexCount;
 
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingBufferMemory;
+		uint32_t vertexSize = sizeof(vertices[0]);
 
-		m_device.CreateBuffer(
-			bufferSize,
+		Buffer stagingBuffer{ 
+			m_device,
+			vertexSize,
+			m_vertexCount,
 			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-			stagingBuffer,
-			stagingBufferMemory
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+		};
+
+		stagingBuffer.Map();
+		stagingBuffer.WriteToBuffer((void*)vertices.data());
+
+		m_vertexBuffer = std::make_unique<Buffer>(
+			m_device,
+			vertexSize,
+			m_vertexCount,
+			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
 			);
 
-		void* data;
-		vkMapMemory(m_device, stagingBufferMemory, 0, bufferSize, 0, &data);
-		memcpy(data, vertices.data(), static_cast<size_t>(bufferSize));
-		vkUnmapMemory(m_device, stagingBufferMemory);
-
-		m_device.CreateBuffer(
-			bufferSize,
-			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-			m_vertexBuffer,
-			m_vertexBufferMemory
-		);
-
-		m_device.CopyBuffer(stagingBuffer, m_vertexBuffer, bufferSize);
-
-		vkDestroyBuffer(m_device, stagingBuffer, nullptr);
-		vkFreeMemory(m_device, stagingBufferMemory, nullptr);
+		m_device.CopyBuffer(stagingBuffer.GetBuffer(), m_vertexBuffer->GetBuffer(), bufferSize);
 	}
 
 	void Model::CreateIndexBuffers(const std::vector<uint32_t>& indices)
@@ -145,34 +131,28 @@ namespace JEngine
 
 		VkDeviceSize bufferSize = sizeof(indices[0]) * m_indexCount;
 
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingBufferMemory;
+		uint32_t indexSize = sizeof(indices[0]);
 
-		m_device.CreateBuffer(
-			bufferSize,
+		Buffer stagingBuffer{
+			m_device,
+			indexSize,
+			m_indexCount,
 			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-			stagingBuffer,
-			stagingBufferMemory
-		);
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+		};
 
-		void* data;
-		vkMapMemory(m_device, stagingBufferMemory, 0, bufferSize, 0, &data);
-		memcpy(data, indices.data(), static_cast<size_t>(bufferSize));
-		vkUnmapMemory(m_device, stagingBufferMemory);
+		stagingBuffer.Map();
+		stagingBuffer.WriteToBuffer((void*)indices.data());
 
-		m_device.CreateBuffer(
-			bufferSize,
+		m_indexBuffer = std::make_unique<Buffer>(
+			m_device,
+			indexSize,
+			m_indexCount,
 			VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-			m_indexBuffer,
-			m_indexBufferMemory
-		);
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+			);
 
-		m_device.CopyBuffer(stagingBuffer, m_indexBuffer, bufferSize);
-
-		vkDestroyBuffer(m_device, stagingBuffer, nullptr);
-		vkFreeMemory(m_device, stagingBufferMemory, nullptr);
+		m_device.CopyBuffer(stagingBuffer.GetBuffer(), m_indexBuffer->GetBuffer(), bufferSize);
 	}
 
 	void Model::Builder::LoadModel(const std::string& filepath)

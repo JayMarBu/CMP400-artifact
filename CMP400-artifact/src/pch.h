@@ -17,6 +17,7 @@
 #include <limits>
 #include <memory>
 #include <cstring>
+#include <numeric>
 
 // Vulkan *****************************************************************************************
 #include <vulkan/vulkan.h>

@@ -166,6 +166,9 @@
     <ClCompile Include="external\tinyobjloader\tiny_obj_loader.cc" />
     <ClCompile Include="src\engine\App.cpp" />
     <ClCompile Include="src\engine\Camera.cpp" />
+    <ClCompile Include="src\engine\graphics\Buffer.cpp" />
+    <ClCompile Include="src\engine\graphics\Descriptors.cpp" />
+    <ClCompile Include="src\engine\graphics\FrameInfo.cpp" />
     <ClCompile Include="src\engine\graphics\Renderer.cpp" />
     <ClCompile Include="src\engine\graphics\SimpleRenderSystem.cpp" />
     <ClCompile Include="src\engine\KeyboardMovementController.cpp" />
@@ -192,6 +195,9 @@
     <ClInclude Include="external\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="src\engine\App.h" />
     <ClInclude Include="src\engine\Camera.h" />
+    <ClInclude Include="src\engine\graphics\Buffer.h" />
+    <ClInclude Include="src\engine\graphics\Descriptors.h" />
+    <ClInclude Include="src\engine\graphics\FrameInfo.h" />
     <ClInclude Include="src\engine\graphics\Renderer.h" />
     <ClInclude Include="src\engine\graphics\SimpleRenderSystem.h" />
     <ClInclude Include="src\engine\system\Device.h" />

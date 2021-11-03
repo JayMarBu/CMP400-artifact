@@ -4,6 +4,7 @@
 #include "engine/graphics/Model.h"
 #include "engine/GameObject.h"
 #include "engine/system/FrameTimer.h"
+#include "engine/graphics/Descriptors.h"
 
 namespace JEngine
 {
@@ -21,6 +22,7 @@ namespace JEngine
 
 		JEngine::FrameTimer m_timer;
 
+		std::unique_ptr<DescriptorPool> m_globalPool;
 		std::vector<GameObject> m_gameObjects;
 
 		// Methods ********************************************************************************
@@ -31,12 +33,9 @@ namespace JEngine
 		REMOVE_COPY_CONSTRUCTOR(App)
 
 		void run();
+
 	private:
 		void LoadGameObjects();
-
-		void RenderGameObjects(VkCommandBuffer commandBuffer);
-
-		void DrawFrame();
 	};
 
 }
