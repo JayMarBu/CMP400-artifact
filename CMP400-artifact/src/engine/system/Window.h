@@ -32,6 +32,7 @@ namespace JEngine
 
 		bool WasWindowResized() { return frameBufferResized; }
 		void ResetWindowResizedFlag() { frameBufferResized = false; }
+		inline GLFWwindow* GetGLFWWindow() const { return m_window; }
 
 	private:
 		void InitWindow();

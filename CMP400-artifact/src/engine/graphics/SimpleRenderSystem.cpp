@@ -8,7 +8,7 @@ namespace JEngine
 	struct SimplePushConstantData
 	{
 		glm::mat4 transform{ 1.f };
-		alignas(16) glm::vec3 colour;
+		glm::mat4 normalMatrix{ 1.f };
 	};
 
 
@@ -37,8 +37,9 @@ namespace JEngine
 
 			SimplePushConstantData pushData{};
 
-			pushData.colour = obj.colour;
-			pushData.transform = projectionView * obj.transform.mat4();
+			auto modelMat = obj.transform.mat4();
+			pushData.transform = projectionView * modelMat;
+			pushData.normalMatrix = obj.transform.normalMatrix();
 
 			vkCmdPushConstants(
 				commandBuffer,

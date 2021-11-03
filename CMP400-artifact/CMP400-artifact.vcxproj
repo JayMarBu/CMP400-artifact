@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;$(SolutionDir)external\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;$(SolutionDir)external\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;$(SolutionDir)external\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;$(SolutionDir)external\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -163,10 +163,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="external\tinyobjloader\tiny_obj_loader.cc" />
     <ClCompile Include="src\engine\App.cpp" />
     <ClCompile Include="src\engine\Camera.cpp" />
     <ClCompile Include="src\engine\graphics\Renderer.cpp" />
     <ClCompile Include="src\engine\graphics\SimpleRenderSystem.cpp" />
+    <ClCompile Include="src\engine\KeyboardMovementController.cpp" />
     <ClCompile Include="src\engine\system\Device.cpp" />
     <ClCompile Include="src\engine\GameObject.cpp" />
     <ClCompile Include="src\engine\graphics\Model.cpp" />
@@ -187,6 +189,7 @@
     <ClCompile Include="src\engine\system\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="external\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="src\engine\App.h" />
     <ClInclude Include="src\engine\Camera.h" />
     <ClInclude Include="src\engine\graphics\Renderer.h" />
@@ -197,6 +200,7 @@
     <ClInclude Include="src\engine\graphics\Pipeline.h" />
     <ClInclude Include="src\engine\graphics\SwapChain.h" />
     <ClInclude Include="src\engine\system\FrameTimer.h" />
+    <ClInclude Include="src\engine\KeyboardMovementController.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\engine\system\Window.h" />
     <ClInclude Include="src\utils\Utils.h" />

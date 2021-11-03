@@ -6,7 +6,7 @@ namespace JEngine
 
 	void Camera::SetViewDirection(glm::vec3 position, glm::vec3 direction, glm::vec3 up /*= glm::vec3(0.f,-1.0f,0.f)*/)
 	{
-		assert(direction != glm::vec3(0,0,0) && "cannot have a zero length direction vector");
+		assert(!VEC_IS_ZERO(direction) && "cannot have a zero length direction vector");
 
 		const glm::vec3 w{ glm::normalize(direction) };
 		const glm::vec3 u{ glm::normalize(glm::cross(w, up)) };

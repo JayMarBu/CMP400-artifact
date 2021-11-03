@@ -93,6 +93,24 @@ namespace JEngine
 		uint32_t subpass = 0;
 	};
 
+	struct ShaderPaths
+	{
+		enum PipelineType
+		{
+			RENDER,
+			COMPUTE
+		};
+
+		PipelineType type;
+
+		std::string vert_filepath{};
+		std::string frag_filepath{};
+		std::string hull_filepath{};
+		std::string geometry_filepath{};
+		std::string domain_filepath{};
+		std::string compute_filepath{};
+	};
+
 	class Pipeline
 	{
 		// Members ********************************************************************************

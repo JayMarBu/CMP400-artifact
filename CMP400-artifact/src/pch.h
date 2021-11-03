@@ -32,8 +32,15 @@
 #include <glm/gtc/matrix_inverse.hpp>
 #include <glm/gtc/quaternion.hpp>
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/hash.hpp>
+
 // GLFW *******************************************************************************************
 //#include <GLFW/glfw3.h>
 
 // JEngine ****************************************************************************************
 #include "utils/Utils.h"
+
+// Tiny OBJ Loader ********************************************************************************
+//#define TINYOBJLOADER_IMPLEMENTATION
+//#include <tiny_obj_loader.h>

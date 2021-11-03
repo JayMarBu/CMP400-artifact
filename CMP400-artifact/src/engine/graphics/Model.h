@@ -12,21 +12,47 @@ namespace JEngine
 		{
 			glm::vec3 position;
 			glm::vec3 colour;
+			glm::vec3 normals;
+			glm::vec2 texcoords;
 
 			static std::vector<VkVertexInputBindingDescription> getBindingDescriptions();
 			static std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions();
+
+			bool operator==(const Vertex& other) const 
+			{
+				return	position	== other.position &&
+						colour		== other.colour &&
+						normals		== other.normals &&
+						texcoords	== other.texcoords;
+			};
+
+
+		};
+
+		struct Builder
+		{
+			std::vector<Vertex> vertices{};
+			std::vector<uint32_t> indices{};
+
+			void LoadModel(const std::string& filepath);
 		};
 
 	private:
 		JEngine::Device& m_device;
+
 		VkBuffer m_vertexBuffer;
 		VkDeviceMemory m_vertexBufferMemory;
 		uint32_t m_vertexCount;
 
+		bool m_hasIndexBuffer = false;
+		VkBuffer m_indexBuffer;
+		VkDeviceMemory m_indexBufferMemory;
+		uint32_t m_indexCount;
+
 		// Methods ********************************************************************************
 	public:
 
-		Model(JEngine::Device& device, const std::vector<Vertex>& vertices);
+		Model(JEngine::Device& device, const Builder& builder);
 		~Model();
 
 		REMOVE_COPY_CONSTRUCTOR(Model);
@@ -34,8 +60,11 @@ namespace JEngine
 		void Bind(VkCommandBuffer commandBuffer);
 		void Draw(VkCommandBuffer commandBuffer);
 
+		static std::unique_ptr<Model> CreateModelFromFile(Device& device, const std::string& filepath);
+
 	private:
 
 		void CreateVertexBuffers(const std::vector<Vertex> & vertices);
+		void CreateIndexBuffers(const std::vector<uint32_t> & indices);
 	};
 }
