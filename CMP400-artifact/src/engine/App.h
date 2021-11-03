@@ -13,6 +13,8 @@
 
 #include "engine/graphics/SimpleRenderSystem.h"
 
+#include "engine/GuiManager.h"
+
 namespace JEngine
 {
 	struct CameraWrapper
@@ -43,6 +45,8 @@ namespace JEngine
 		std::vector<VkDescriptorSet> m_globalDescriptorSets;
 
 		std::vector<std::unique_ptr<Buffer>> m_UBObuffers;
+
+		std::unique_ptr<GuiManager> m_imguiManager;
 
 		std::unique_ptr<SimpleRenderSystem> m_simpleRenderSystem;
 

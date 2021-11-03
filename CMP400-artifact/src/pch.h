@@ -1,3 +1,5 @@
+#pragma once
+#define WIN32_LEAN_AND_MEAN
 
 // Containers *************************************************************************************
 #include <vector>
@@ -45,3 +47,8 @@
 // Tiny OBJ Loader ********************************************************************************
 //#define TINYOBJLOADER_IMPLEMENTATION
 //#include <tiny_obj_loader.h>
+
+// ImGui ******************************************************************************************
+#include <imgui.h>
+#include <backends/imgui_impl_vulkan.h>
+#include <backends/imgui_impl_glfw.h>

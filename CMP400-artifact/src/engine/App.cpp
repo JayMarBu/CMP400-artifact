@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "engine/App.h"
 
-
-
 #include "engine/graphics/FrameInfo.h"
+
 
 namespace JEngine
 {
@@ -44,6 +43,13 @@ namespace JEngine
 	// Initializtion methods **********************************************************************
 	void App::Init()
 	{
+		m_imguiManager = std::make_unique<GuiManager>(
+			m_window,
+			m_device,
+			m_renderer.getSwapChainRenderPass(),
+			m_renderer.GetImageCount()
+			);
+
 		InitUBO();
 		InitDescriptorPool();
 	}
@@ -124,6 +130,8 @@ namespace JEngine
 		if (!commandBuffer)
 			return;
 		
+		m_imguiManager->newFrame();
+
 		// ****** fill frame info struct ******
 		FrameInfo fInfo{
 			m_renderer.GetFrameIndex(),
@@ -144,6 +152,9 @@ namespace JEngine
 		m_renderer.BeginSwapChainRenderPass(commandBuffer);
 
 		m_simpleRenderSystem->RenderGameObjects(fInfo, m_gameObjects);
+
+		m_imguiManager->runExample();
+		m_imguiManager->render(commandBuffer);
 
 		m_renderer.EndSwapChainRenderPass(commandBuffer);
 		m_renderer.EndFrame();

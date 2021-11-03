@@ -39,6 +39,7 @@ namespace JEngine
 		inline VkRenderPass getSwapChainRenderPass() const { return m_swapChain->renderPass(); }
 		inline float GetAspectRatio() const { return m_swapChain->extentAspectRatio(); }
 		inline bool IsFrameInProgress() const { return m_isFrameStarted; }
+		inline uint32_t GetImageCount() const { return m_swapChain->imageCount(); }
 
 
 		inline int GetFrameIndex() const 

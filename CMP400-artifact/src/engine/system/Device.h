@@ -56,11 +56,14 @@ namespace JEngine {
 
 		operator VkDevice() { return device(); }
 
+		inline VkInstance instance() const { return m_instance; }
+		inline VkPhysicalDevice physicalDevice() const { return m_physicalDevice; }
 		VkCommandPool commandPool() { return m_commandPool; }
 		VkDevice device() { return m_device; }
 		VkSurfaceKHR surface() { return m_surface; }
 		VkQueue graphicsQueue() { return m_graphicsQueue; }
 		VkQueue presentQueue() { return m_presentQueue; }
+		inline uint32_t getGraphicsQueueFamily() { return FindPhysicalQueueFamilies().graphicsFamily; }
 
 		SwapChainSupportDetails GetSwapChainSupport() { return QuerySwapChainSupport(m_physicalDevice); }
 		uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
