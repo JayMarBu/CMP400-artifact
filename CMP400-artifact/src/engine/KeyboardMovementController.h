@@ -27,13 +27,14 @@ namespace JEngine
 
 		KeyMappings keys{};
 
-		float moveSpeed{ 3.f };
-		float turnSpeed{1.5f};
+		float moveSpeed{ 1.f };
+		float turnSpeed{2.5f};
 
+		int deltax, deltay;
 		// Methods ********************************************************************************
 
 	public:
 
-		void MoveInPlaneXZ(GLFWwindow* window, float dt, GameObject &gameObject);
+		void MoveInPlaneXZ(Window* window, float dt, GameObject &gameObject, Input* input);
 	};
 }

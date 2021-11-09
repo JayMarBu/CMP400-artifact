@@ -20,6 +20,7 @@
 #include <memory>
 #include <cstring>
 #include <numeric>
+#include <Windows.h>
 
 // Vulkan *****************************************************************************************
 #include <vulkan/vulkan.h>
@@ -39,7 +40,7 @@
 #include <glm/gtx/hash.hpp>
 
 // GLFW *******************************************************************************************
-//#include <GLFW/glfw3.h>
+#include <GLFW/glfw3.h>
 
 // JEngine ****************************************************************************************
 #include "utils/Utils.h"

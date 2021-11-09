@@ -1,4 +1,5 @@
 #pragma once
+#include "engine/system/Input.h"
 #include "engine/system/Window.h"
 #include "engine/graphics/Renderer.h"
 #include "engine/graphics/Model.h"
@@ -34,7 +35,8 @@ namespace JEngine
 		static constexpr int HEIGHT = 600;
 
 	private:
-		JEngine::Window m_window{ WIDTH,HEIGHT,"JEngine window" };
+		JEngine::Input m_input;
+		JEngine::Window m_window{ WIDTH,HEIGHT,"JEngine window", &m_input};
 		JEngine::Device m_device{ m_window };
 		JEngine::Renderer m_renderer{ m_window, m_device };
 
@@ -53,8 +55,6 @@ namespace JEngine
 		std::vector<GameObject> m_gameObjects;
 		CameraWrapper m_camera{};
 
-		
-
 		// Methods ********************************************************************************
 	public:
 		App();
@@ -72,6 +72,8 @@ namespace JEngine
 
 		void InitUBO();
 		void InitDescriptorPool();
+
+		void DrawGui();
 	};
 
 }

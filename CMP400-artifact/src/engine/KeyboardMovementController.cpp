@@ -4,18 +4,35 @@
 namespace JEngine
 {
 
-	void KeyboardMovementController::MoveInPlaneXZ(GLFWwindow* window, float dt, GameObject& gameObject)
+	void KeyboardMovementController::MoveInPlaneXZ(Window* window, float dt, GameObject& gameObject, Input* input)
 	{
 		glm::vec3 rotate{ 0.0f };
 
-		if (glfwGetKey(window, keys.lookRight) == GLFW_PRESS)
+		if (glfwGetKey(window->GetGLFWWindow(), keys.lookRight) == GLFW_PRESS)
 			rotate.y += 1;
-		if (glfwGetKey(window, keys.lookLeft) == GLFW_PRESS)
+		if (glfwGetKey(window->GetGLFWWindow(), keys.lookLeft) == GLFW_PRESS)
 			rotate.y -= 1;
-		if (glfwGetKey(window, keys.lookUp) == GLFW_PRESS)
+		if (glfwGetKey(window->GetGLFWWindow(), keys.lookUp) == GLFW_PRESS)
 			rotate.x += 1;
-		if (glfwGetKey(window, keys.lookDown) == GLFW_PRESS)
+		if (glfwGetKey(window->GetGLFWWindow(), keys.lookDown) == GLFW_PRESS)
 			rotate.x -= 1;
+
+		if (input->isRightMouseDown())
+		{
+			glfwSetInputMode(window->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+			deltax = input->getMouseX() - (window->getExtent().width / 2);
+			deltay = input->getMouseY() - (window->getExtent().height / 2);
+
+			rotate.y += turnSpeed * dt * (float)deltax;
+			rotate.x -= turnSpeed * dt * (float)deltay;
+
+			input->SetMouseToCentre(window);
+		}
+		else
+		{
+			glfwSetInputMode(window->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
 
 		if(VEC_IS_ZERO(rotate))
 			gameObject.transform.rotation += turnSpeed * dt * glm::normalize(rotate);
@@ -30,17 +47,18 @@ namespace JEngine
 
 		glm::vec3 moveDir{ 0 };
 
-		if (glfwGetKey(window, keys.moveRight) == GLFW_PRESS)
+		//if (glfwGetKey(window, keys.moveRight) == GLFW_PRESS)
+		if (input->isKeyDown(keys.moveRight))
 			moveDir += rightDir;
-		if (glfwGetKey(window, keys.moveLeft) == GLFW_PRESS)
+		if (input->isKeyDown(keys.moveLeft))
 			moveDir -= rightDir;
-		if (glfwGetKey(window, keys.moveForward) == GLFW_PRESS)
+		if (input->isKeyDown(keys.moveForward))
 			moveDir += forwardDir;
-		if (glfwGetKey(window, keys.moveBack) == GLFW_PRESS)
+		if (input->isKeyDown(keys.moveBack))
 			moveDir -= forwardDir; 
-		if (glfwGetKey(window, keys.moveUp) == GLFW_PRESS)
+		if (input->isKeyDown(keys.moveUp))
 			moveDir += upDir;
-		if (glfwGetKey(window, keys.moveDown) == GLFW_PRESS)
+		if (input->isKeyDown(keys.moveDown))
 			moveDir -= upDir;
 
 		if (VEC_IS_ZERO(moveDir))

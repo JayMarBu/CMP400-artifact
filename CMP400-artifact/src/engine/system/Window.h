@@ -2,6 +2,8 @@
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
+#include "engine/system/Input.h"
+
 namespace JEngine
 {
 	class Window
@@ -9,6 +11,8 @@ namespace JEngine
 		// Members ********************************************************************************
 	private:
 		GLFWwindow* m_window;
+
+		Input* m_input;
 
 		int height;
 		int width;
@@ -18,7 +22,7 @@ namespace JEngine
 
 		// Methods ********************************************************************************
 	public:
-		Window(const int& w, const int& h, const std::string& _name);
+		Window(const int& w, const int& h, const std::string& _name, Input* input);
 		~Window();
 
 		Window(const Window&) = delete;
@@ -38,5 +42,8 @@ namespace JEngine
 		void InitWindow();
 
 		static void FrameBufferResizedCallback(GLFWwindow* window, int w, int h);
+		static void KeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods);
+		static void CursorPositionCallback(GLFWwindow* window, double xpos, double ypos);
+		static void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
 	};
 }

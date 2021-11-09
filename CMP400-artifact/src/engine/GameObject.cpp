@@ -34,6 +34,27 @@ namespace JEngine
 			{translation.x, translation.y, translation.z, 1.0f} };
 	}
 
+	glm::mat3 CTransform::invRotationMat()
+	{
+		glm::mat3 rotX{
+			{1, 0, 0},
+			{0, glm::cos(rotation.x), -glm::sin(rotation.x)},
+			{0, glm::sin(rotation.x), glm::cos(rotation.x)}
+		};
+		glm::mat3 rotY{
+			{glm::cos(rotation.y), 0, glm::sin(rotation.y)},
+			{0, 1, 0},
+			{-glm::sin(rotation.y), 0, glm::cos(rotation.y)}
+		};
+		glm::mat3 rotZ{
+			{glm::cos(rotation.x), -glm::sin(rotation.x),0},
+			{glm::sin(rotation.x), glm::cos(rotation.x),0},
+			{0,0,1}
+		};
+
+		return rotX * rotY * rotZ;
+	}
+
 	glm::mat3 CTransform::normalMatrix()
 	{
 		const float c3 = glm::cos(rotation.z);

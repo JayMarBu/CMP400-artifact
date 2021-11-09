@@ -1,10 +1,6 @@
 #pragma once
-#pragma once
 
 #include "engine/system/Device.h"
-
-// vulkan headers
-//#include <vulkan/vulkan.h>
 
 namespace JEngine {
 

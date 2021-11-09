@@ -13,6 +13,8 @@ namespace JEngine
 
 		glm::mat4 mat4();
 
+		glm::mat3 invRotationMat();
+
 		glm::mat3 normalMatrix();
 
 		operator glm::mat4() { return mat4(); }

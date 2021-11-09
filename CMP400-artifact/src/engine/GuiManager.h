@@ -3,12 +3,6 @@
 #include "engine/system/Device.h"
 #include "engine/system/Window.h"
 
-#define WIN32_LEAN_AND_MEAN
-//#define IMGUI_IMPLEMENTATION
-#include <imgui.h>
-//#include <imgui.h>
-#include <backends/imgui_impl_vulkan.h>
-#include <backends/imgui_impl_glfw.h>
 
 namespace JEngine
 {

@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "engine/system/Window.h"
 
-JEngine::Window::Window(const int& w, const int& h, const std::string& _name)
-	: width(w), height(h), name(_name)
+JEngine::Window::Window(const int& w, const int& h, const std::string& _name, Input* input)
+	: width(w), height(h), name(_name), m_input(input)
 {
 	InitWindow();
 }
@@ -11,6 +11,67 @@ void JEngine::Window::CreateWindowSurface(VkInstance instance, VkSurfaceKHR* sur
 {
 	if (glfwCreateWindowSurface(instance, m_window, nullptr, surface) != VK_SUCCESS)
 		throw std::runtime_error("failed to create window surface!");
+}
+
+void JEngine::Window::KeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	Window* thisWindow = (Window*)glfwGetWindowUserPointer(window);
+
+	switch (action)
+	{
+	case GLFW_PRESS:
+		thisWindow->m_input->SetKeyDown(key);
+		break;
+
+	case GLFW_RELEASE:
+		thisWindow->m_input->SetKeyUp(key);
+		break;
+
+	default:
+		break;
+	}
+}
+
+void JEngine::Window::CursorPositionCallback(GLFWwindow* window, double xpos, double ypos)
+{
+	Window* thisWindow = (Window*)glfwGetWindowUserPointer(window);
+
+	thisWindow->m_input->setMouseX((int)std::round(xpos));
+	thisWindow->m_input->setMouseY((int)std::round(ypos));
+}
+
+void JEngine::Window::MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	Window* thisWindow = (Window*)glfwGetWindowUserPointer(window);
+
+	switch (button)
+	{
+	case GLFW_MOUSE_BUTTON_LEFT:
+		switch (action)
+		{
+		case GLFW_PRESS:
+			thisWindow->m_input->setLeftMouse(true);
+			break;
+
+		case GLFW_RELEASE:
+			thisWindow->m_input->setLeftMouse(false);
+			break;
+		}
+		break;
+
+	case GLFW_MOUSE_BUTTON_RIGHT:
+		switch (action)
+		{
+		case GLFW_PRESS:
+			thisWindow->m_input->setRightMouse(true);
+			break;
+
+		case GLFW_RELEASE:
+			thisWindow->m_input->setRightMouse(false);
+			break;
+		}
+		break;
+	}
 }
 
 JEngine::Window::~Window()
@@ -28,6 +89,9 @@ void JEngine::Window::InitWindow()
 	m_window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
 	glfwSetWindowUserPointer(m_window, this);
 	glfwSetFramebufferSizeCallback(m_window, FrameBufferResizedCallback);
+	glfwSetKeyCallback(m_window, KeyCallBack);
+	glfwSetCursorPosCallback(m_window, CursorPositionCallback);
+	glfwSetMouseButtonCallback(m_window, MouseButtonCallback);
 }
 
 void JEngine::Window::FrameBufferResizedCallback(GLFWwindow* window, int w, int h)

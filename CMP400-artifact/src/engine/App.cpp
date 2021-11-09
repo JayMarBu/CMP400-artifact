@@ -29,13 +29,13 @@ namespace JEngine
 
 	void App::LoadGameObjects()
 	{
-		std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/flat_vase.obj");
+		std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/colored_cube.obj");
 
 		auto cube = GameObject::Create();
 
 		cube.model = model;
-		cube.transform.translation = { 0.f,0.5f,2.5f };
-		cube.transform.scale = glm::vec3(3.f);
+		cube.transform.translation = { 0.f,0.f,.5f };
+		cube.transform.scale = glm::vec3(0.1f);
 
 		m_gameObjects.push_back(std::move(cube));
 	}
@@ -117,7 +117,7 @@ namespace JEngine
 	// Main Loop Methods **************************************************************************
 	void App::Update()
 	{
-		m_camera.controller.MoveInPlaneXZ(m_window.GetGLFWWindow(), m_timer.getTime(), m_camera.gObject);
+		m_camera.controller.MoveInPlaneXZ(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
 		m_camera.camera.SetViewXYZ(m_camera.gObject.transform.translation, m_camera.gObject.transform.rotation);
 
 		float aspect = m_renderer.GetAspectRatio();
@@ -150,15 +150,41 @@ namespace JEngine
 
 		// ****** render geometry *******
 		m_renderer.BeginSwapChainRenderPass(commandBuffer);
+		// render your stuff here
 
 		m_simpleRenderSystem->RenderGameObjects(fInfo, m_gameObjects);
 
-		m_imguiManager->runExample();
-		m_imguiManager->render(commandBuffer);
+		
+		DrawGui();
 
+		// stop rendering your stuff
+		m_imguiManager->render(commandBuffer);
 		m_renderer.EndSwapChainRenderPass(commandBuffer);
 		m_renderer.EndFrame();
 		
+	}
+
+
+	void App::DrawGui()
+	{
+		ImGui::Begin("Test");
+
+		ImGui::Text(
+			"Application average %.3f ms/frame (%.1f FPS)",
+			1000.0f / m_timer.getFPS(),
+			m_timer.getFPS());
+
+		ImGui::Text(
+			"Mouse position: [%i, %i]",
+			m_input.getMouseX(),
+			m_input.getMouseY());
+
+		ImGui::Text(
+			"Mouse delta: [%i, %i]",
+			m_input.getMouseX() - (m_window.getExtent().width / 2),
+			m_input.getMouseY() - (m_window.getExtent().height / 2));
+
+		ImGui::End();
 	}
 }
 
