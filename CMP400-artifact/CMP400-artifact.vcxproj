@@ -128,7 +128,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;$(SolutionDir)external\tinyobjloader;$(SolutionDir)external\imgui;$(SolutionDir)external\imguizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;$(SolutionDir)external\tinyobjloader;$(SolutionDir)external\imgui;$(SolutionDir)external\imguizmo;$(SolutionDir)external\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -148,7 +148,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;$(SolutionDir)external\tinyobjloader;$(SolutionDir)external\imgui;$(SolutionDir)external\imguizmo;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)src;C:\VulkanSDK\1.2.162.1\Include;$(SolutionDir)external\glfw\include;$(SolutionDir)external\glm;$(SolutionDir)external\tinyobjloader;$(SolutionDir)external\imgui;$(SolutionDir)external\imguizmo;$(SolutionDir)external\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -277,13 +277,16 @@
     <ClCompile Include="src\engine\graphics\Buffer.cpp" />
     <ClCompile Include="src\engine\graphics\Descriptors.cpp" />
     <ClCompile Include="src\engine\graphics\FrameInfo.cpp" />
+    <ClCompile Include="src\engine\graphics\models\Primatives.cpp" />
     <ClCompile Include="src\engine\graphics\Renderer.cpp" />
     <ClCompile Include="src\engine\graphics\SimpleRenderSystem.cpp" />
+    <ClCompile Include="src\engine\graphics\textures\Texture.cpp" />
+    <ClCompile Include="src\engine\graphics\textures\TextureManager.cpp" />
     <ClCompile Include="src\engine\GuiManager.cpp" />
     <ClCompile Include="src\engine\KeyboardMovementController.cpp" />
     <ClCompile Include="src\engine\system\Device.cpp" />
     <ClCompile Include="src\engine\GameObject.cpp" />
-    <ClCompile Include="src\engine\graphics\Model.cpp" />
+    <ClCompile Include="src\engine\graphics\models\Model.cpp" />
     <ClCompile Include="src\engine\graphics\Pipeline.cpp" />
     <ClCompile Include="src\engine\graphics\SwapChain.cpp" />
     <ClCompile Include="src\engine\system\FrameTimer.cpp" />
@@ -317,18 +320,22 @@
     <ClInclude Include="external\imgui\imstb_rectpack.h" />
     <ClInclude Include="external\imgui\imstb_textedit.h" />
     <ClInclude Include="external\imgui\imstb_truetype.h" />
+    <ClInclude Include="external\stb\stb_image.h" />
     <ClInclude Include="external\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="src\engine\App.h" />
     <ClInclude Include="src\engine\Camera.h" />
     <ClInclude Include="src\engine\graphics\Buffer.h" />
     <ClInclude Include="src\engine\graphics\Descriptors.h" />
     <ClInclude Include="src\engine\graphics\FrameInfo.h" />
+    <ClInclude Include="src\engine\graphics\models\Primatives.h" />
     <ClInclude Include="src\engine\graphics\Renderer.h" />
     <ClInclude Include="src\engine\graphics\SimpleRenderSystem.h" />
+    <ClInclude Include="src\engine\graphics\textures\Texture.h" />
+    <ClInclude Include="src\engine\graphics\textures\TextureManager.h" />
     <ClInclude Include="src\engine\GuiManager.h" />
     <ClInclude Include="src\engine\system\Device.h" />
     <ClInclude Include="src\engine\GameObject.h" />
-    <ClInclude Include="src\engine\graphics\Model.h" />
+    <ClInclude Include="src\engine\graphics\models\Model.h" />
     <ClInclude Include="src\engine\graphics\Pipeline.h" />
     <ClInclude Include="src\engine\graphics\SwapChain.h" />
     <ClInclude Include="src\engine\system\FrameTimer.h" />

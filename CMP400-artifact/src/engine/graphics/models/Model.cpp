@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "engine/graphics/Model.h"
+#include "engine/graphics/models/Model.h"
 #include "tiny_obj_loader.h"
 
 namespace std
@@ -85,6 +85,14 @@ namespace JEngine
 		std::cout << "model located at: [" << filepath << "], has been loaded successfully.\n"
 			<< "\t vertex count: " << builder.vertices.size() << "\n"
 			<< "\t index count: " << builder.indices.size() << "\n\n";
+
+		return std::make_unique<Model>(device, builder);
+	}
+
+	std::unique_ptr<Model> Model::CreateModelFromPrimative(Device& device, Primative primative, bool useIndex /*= true*/)
+	{
+		Builder builder{};
+		builder.LoadModel(primative, useIndex);
 
 		return std::make_unique<Model>(device, builder);
 	}
@@ -224,6 +232,11 @@ namespace JEngine
 				indices.push_back(uniqueVertices[vertex]);
 			}
 		}
+	}
+
+	void Model::Builder::LoadModel(Primative primative, bool useIndices)
+	{
+		primative(&vertices, useIndices ? &indices : nullptr);
 	}
 
 }

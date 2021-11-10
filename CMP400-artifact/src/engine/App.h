@@ -2,7 +2,7 @@
 #include "engine/system/Input.h"
 #include "engine/system/Window.h"
 #include "engine/graphics/Renderer.h"
-#include "engine/graphics/Model.h"
+#include "engine/graphics/models/Model.h"
 #include "engine/GameObject.h"
 #include "engine/system/FrameTimer.h"
 #include "engine/graphics/Descriptors.h"
@@ -15,6 +15,8 @@
 #include "engine/graphics/SimpleRenderSystem.h"
 
 #include "engine/GuiManager.h"
+
+#include "engine/graphics/textures/TextureManager.h"
 
 namespace JEngine
 {
@@ -39,6 +41,7 @@ namespace JEngine
 		JEngine::Window m_window{ WIDTH,HEIGHT,"JEngine window", &m_input};
 		JEngine::Device m_device{ m_window };
 		JEngine::Renderer m_renderer{ m_window, m_device };
+		JEngine::TextureManager m_textureManager{m_device};
 
 		JEngine::FrameTimer m_timer;
 

@@ -28,7 +28,7 @@ namespace JEngine
 		KeyMappings keys{};
 
 		float moveSpeed{ 1.f };
-		float turnSpeed{2.5f};
+		float turnSpeed{ 5.f };
 
 		int deltax, deltay;
 		// Methods ********************************************************************************
@@ -36,5 +36,7 @@ namespace JEngine
 	public:
 
 		void MoveInPlaneXZ(Window* window, float dt, GameObject &gameObject, Input* input);
+
+		void DrawGui(GameObject& gameObject);
 	};
 }

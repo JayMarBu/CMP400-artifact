@@ -7,8 +7,6 @@ namespace JEngine
 	class Buffer {
 		// Members ********************************************************************************
 	private:
-		static VkDeviceSize getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment);
-
 		Device& m_device;
 		void* m_mapped = nullptr;
 		VkBuffer m_buffer = VK_NULL_HANDLE;
@@ -56,6 +54,9 @@ namespace JEngine
 		inline VkBufferUsageFlags GetUsageFlags() const { return m_usageFlags; }
 		inline VkMemoryPropertyFlags GetMemoryPropertyFlags() const { return m_memoryPropertyFlags; }
 		inline VkDeviceSize GetBufferSize() const { return m_bufferSize; }
+
+	private:
+		static VkDeviceSize getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment);
 	};
 
 }

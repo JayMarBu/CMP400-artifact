@@ -2,7 +2,7 @@
 
 #include "engine/system/Window.h"
 #include "engine/graphics/SwapChain.h"
-#include "engine/graphics/Model.h"
+#include "engine/graphics/models/Model.h"
 
 namespace JEngine
 {

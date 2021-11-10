@@ -3,6 +3,7 @@
 
 #include "engine/graphics/FrameInfo.h"
 
+#include "engine/graphics/models/Primatives.h"
 
 namespace JEngine
 {
@@ -17,6 +18,7 @@ namespace JEngine
 		m_globalPool = DescriptorPool::Builder(m_device)
 			.SetMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.AddPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT)
+			.AddPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
 
 		LoadGameObjects();
@@ -29,7 +31,8 @@ namespace JEngine
 
 	void App::LoadGameObjects()
 	{
-		std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/colored_cube.obj");
+		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/colored_cube.obj");
+		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primatives::Cube, false);
 
 		auto cube = GameObject::Create();
 
@@ -77,19 +80,20 @@ namespace JEngine
 
 	void App::InitDescriptorPool()
 	{
-
-
 		m_globalSetLayout = DescriptorSetLayout::Builder(m_device)
 			.AddBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
+			.AddBinding(1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT)
 			.Build();
 
 		m_globalDescriptorSets.resize(SwapChain::MAX_FRAMES_IN_FLIGHT);
 		for (int i = 0; i < m_globalDescriptorSets.size(); i++)
 		{
 			auto bufferInfo = m_UBObuffers[i]->DescriptorInfo();
+			auto imageInfo = m_textureManager.ImageInfo();
 
 			DescriptorWriter(*m_globalSetLayout, *m_globalPool)
 				.WriteBuffer(0, &bufferInfo)
+				.WriteImage(1, &imageInfo)
 				.Build(m_globalDescriptorSets[i]);
 		}
 
@@ -179,10 +183,7 @@ namespace JEngine
 			m_input.getMouseX(),
 			m_input.getMouseY());
 
-		ImGui::Text(
-			"Mouse delta: [%i, %i]",
-			m_input.getMouseX() - (m_window.getExtent().width / 2),
-			m_input.getMouseY() - (m_window.getExtent().height / 2));
+		m_camera.controller.DrawGui(m_camera.gObject);
 
 		ImGui::End();
 	}

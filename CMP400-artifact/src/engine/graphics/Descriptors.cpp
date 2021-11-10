@@ -15,6 +15,7 @@ namespace JEngine
 		layoutBinding.descriptorType = descriptorType;
 		layoutBinding.descriptorCount = count;
 		layoutBinding.stageFlags = stageFlags;
+		layoutBinding.pImmutableSamplers = nullptr;
 		m_bindings[binding] = layoutBinding;
 		return *this;
 	}

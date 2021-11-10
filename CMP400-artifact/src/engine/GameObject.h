@@ -1,5 +1,5 @@
 #pragma once
-#include "engine/graphics/Model.h"
+#include "engine/graphics/models/Model.h"
 
 namespace JEngine
 {

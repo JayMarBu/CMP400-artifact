@@ -36,6 +36,7 @@ namespace JEngine
 			std::vector<uint32_t> indices{};
 
 			void LoadModel(const std::string& filepath);
+			void LoadModel(Primative primative, bool useIndices = false);
 		};
 
 	private:
@@ -60,6 +61,7 @@ namespace JEngine
 		void Draw(VkCommandBuffer commandBuffer);
 
 		static std::unique_ptr<Model> CreateModelFromFile(Device& device, const std::string& filepath);
+		static std::unique_ptr<Model> CreateModelFromPrimative(Device& device, Primative primative, bool useIndex = true);
 
 	private:
 

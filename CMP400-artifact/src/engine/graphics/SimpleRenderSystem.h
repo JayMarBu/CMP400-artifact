@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/graphics/Pipeline.h"
-#include "engine/graphics/Model.h"
+#include "engine/graphics/models/Model.h"
 #include "engine/GameObject.h"
 #include "engine/graphics/FrameInfo.h"
 

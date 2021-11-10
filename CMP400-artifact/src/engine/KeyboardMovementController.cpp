@@ -65,4 +65,29 @@ namespace JEngine
 			gameObject.transform.translation += moveSpeed * dt * glm::normalize(moveDir);
 	}
 
+	void KeyboardMovementController::DrawGui(GameObject& gameObject)
+	{
+		if (ImGui::CollapsingHeader("Camera Options"))
+		{
+			ImGui::Indent(10);
+
+			static bool showControls = false;
+			ImGui::Checkbox("show Controls##bool", &showControls);
+			if (showControls)
+			{
+				ImGui::Text("Camera Controls:");
+				ImGui::Text("\tWASD to move.");
+				ImGui::Text("\tRight click and drag to turn");
+				ImGui::Text("\tSpace to ascend");
+				ImGui::Text("\tQ to descend");
+			}
+
+			ImGui::Text(("Position: (" + std::to_string(gameObject.transform.translation.x) + ", " + std::to_string(gameObject.transform.translation.y) + ", " + std::to_string(gameObject.transform.translation.z) + ")").c_str());
+			ImGui::Text(("rotation: (" + std::to_string(gameObject.transform.rotation.x) + ", " + std::to_string(gameObject.transform.rotation.y) + ", " + std::to_string(gameObject.transform.rotation.z) + ")").c_str());
+			ImGui::SliderFloat("Camera move speed", &moveSpeed, 0.1f, 10.0f);
+			ImGui::SliderFloat("Camera rotation speed", &turnSpeed, 1.0f, 20.0f);
+			ImGui::Indent(-10);
+		}
+	}
+
 }

@@ -15,6 +15,8 @@
 
 namespace JEngine
 {
+	#define Primative std::function<void(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices)>
+
 	// from: https://stackoverflow.com/a/57595105
 	template <typename T, typename... Rest>
 	void HashCombine(std::size_t& seed, const T& v, const Rest&... rest) 
@@ -23,3 +25,4 @@ namespace JEngine
 		(HashCombine(seed, rest), ...);
 	};
 }
+
