@@ -31,7 +31,7 @@ namespace JEngine
 
 	void App::LoadGameObjects()
 	{
-		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/colored_cube.obj");
+		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/obamium.obj");
 		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primatives::Cube, false);
 
 		auto cube = GameObject::Create();
@@ -53,6 +53,7 @@ namespace JEngine
 			m_renderer.GetImageCount()
 			);
 
+		InitTextures();
 		InitUBO();
 		InitDescriptorPool();
 	}
@@ -89,7 +90,7 @@ namespace JEngine
 		for (int i = 0; i < m_globalDescriptorSets.size(); i++)
 		{
 			auto bufferInfo = m_UBObuffers[i]->DescriptorInfo();
-			auto imageInfo = m_textureManager.ImageInfo();
+			auto imageInfo = m_textureManager.ImageInfo(m_sampler,"bunny");
 
 			DescriptorWriter(*m_globalSetLayout, *m_globalPool)
 				.WriteBuffer(0, &bufferInfo)
@@ -98,6 +99,11 @@ namespace JEngine
 		}
 
 		m_simpleRenderSystem = std::make_unique<SimpleRenderSystem>(m_device, m_renderer.getSwapChainRenderPass(), m_globalSetLayout->GetDescriptorSetLayout());
+	}
+
+	void App::InitTextures()
+	{
+		m_textureManager.LoadTexture("bunny", "media/textures/bunny.png");
 	}
 
 	// Run method *********************************************************************************

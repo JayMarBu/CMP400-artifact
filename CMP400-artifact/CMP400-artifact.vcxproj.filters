@@ -123,6 +123,9 @@
     <ClCompile Include="src\engine\graphics\models\Primatives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\graphics\textures\Sampler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -240,6 +243,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\graphics\models\Primatives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\textures\Sampler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

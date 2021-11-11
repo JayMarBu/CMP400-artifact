@@ -17,6 +17,7 @@
 #include "engine/GuiManager.h"
 
 #include "engine/graphics/textures/TextureManager.h"
+#include "engine/graphics/textures/Sampler.h"
 
 namespace JEngine
 {
@@ -58,6 +59,8 @@ namespace JEngine
 		std::vector<GameObject> m_gameObjects;
 		CameraWrapper m_camera{};
 
+		Sampler m_sampler{m_device};
+
 		// Methods ********************************************************************************
 	public:
 		App();
@@ -75,6 +78,7 @@ namespace JEngine
 
 		void InitUBO();
 		void InitDescriptorPool();
+		void InitTextures();
 
 		void DrawGui();
 	};

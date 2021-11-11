@@ -13,6 +13,9 @@
 
 #define VEC_IS_ZERO(_vec_) (glm::dot(_vec_, _vec_) > std::numeric_limits<float>::epsilon())
 
+#define  MAP_CONTAINS(_map_,_val_) (_map_.find(_val_) != _map_.end())
+#define  LOOP_MAP_ITEMS(_map_, _it_) auto _it_ = _map_.begin(); _it_ != _map_.end(); _it_++
+
 namespace JEngine
 {
 	#define Primative std::function<void(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices)>

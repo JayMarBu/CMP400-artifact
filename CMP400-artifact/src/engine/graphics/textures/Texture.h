@@ -10,10 +10,8 @@ namespace JEngine
 		Device& m_device;
 
 		VkImage m_textureImage;
-		VkImageLayout m_textureImageLayout;
 		VkDeviceMemory m_textureImageMemory;
 		VkImageView m_imageView;
-		VkSampler m_sampler;
 		uint32_t m_width;
 		uint32_t m_height;
 
@@ -21,22 +19,29 @@ namespace JEngine
 		uint32_t m_texelCount;
 
 		VkFormat m_imageFormat;
+		VkImageTiling m_tiling;
 		VkBufferUsageFlags m_usageFlags;
 
 		// Methods ********************************************************************************
 	public:
 		Texture(
 			Device& device,
-			uint32_t imageWidth,
-			uint32_t imageHeight,
-			uint32_t texelCount,
-			VkBufferUsageFlags usageFlags,
-			VkFormat imageFormat
-			// tiling mode,
-			// sample count
+			std::string filePath,
+			VkFormat imageFormat = VK_FORMAT_R8G8B8A8_SRGB,
+			VkImageTiling tiling = VK_IMAGE_TILING_OPTIMAL,
+			VkBufferUsageFlags usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT
 		);
 
-		/*void CreateTexture(
+		~Texture();
+
+		REMOVE_COPY_CONSTRUCTOR(Texture);
+
+		inline VkImageView imageView() const { return m_imageView; }
+
+	private:
+		void CreateTextureImage(std::string filePath);
+
+		void CreateTexture(
 			uint32_t width,
 			uint32_t height,
 			VkFormat format,
@@ -45,8 +50,14 @@ namespace JEngine
 			VkMemoryPropertyFlags properties,
 			VkImage& image,
 			VkDeviceMemory& imageMemory
-		);*/
+		);
 
-		~Texture();
+		void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+
+		void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+
+		void createTextureImageView();
+
+		VkImageView createImageView(VkImage image, VkFormat format);
 	};
 }

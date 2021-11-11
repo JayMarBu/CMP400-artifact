@@ -10,44 +10,21 @@ namespace JEngine
 	private:
 		Device& m_device;
 
-		VkImage m_textureImage;
-		VkDeviceMemory m_textureImageMemory;
-
-		VkImageView m_textureImageView;
-
-		VkSampler m_sampler;
-
-		//std::unordered_map<std::string, unique_ptr<>>
+		std::unordered_map<std::string, std::unique_ptr<Texture>> m_textures;
 
 		// Methods ********************************************************************************
 	public:
 		TextureManager(Device& device);
 		~TextureManager();
 
-		inline VkDescriptorImageInfo ImageInfo() const { return VkDescriptorImageInfo{ m_sampler, m_textureImageView, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL}; }
+		inline VkDescriptorImageInfo ImageInfo(VkSampler sampler, const std::string texture_id) { return VkDescriptorImageInfo{ sampler, GetTexture(texture_id), VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL}; }
+
+		void LoadTexture(const std::string& id, const std::string& filepath);
+		VkImageView GetTexture(const std::string& id);
 
 	private:
-		void CreateTextureImage();
-
-		void CreateTexture(
-			uint32_t width,
-			uint32_t height,
-			VkFormat format,
-			VkImageTiling tiling,
-			VkImageUsageFlags usage,
-			VkMemoryPropertyFlags properties,
-			VkImage& image,
-			VkDeviceMemory& imageMemory
-		);
 		
-		void transitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
-
-		void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
-
-		void createTextureImageView();
-
-		VkImageView createImageView(VkImage image, VkFormat format);
-
-		void CreateTextureSampler();
+		void CreateDefaultTexture();
+		bool DoesFileExist(const std::string& filepath);
 	};
 }
