@@ -279,7 +279,7 @@
     <ClCompile Include="src\engine\graphics\FrameInfo.cpp" />
     <ClCompile Include="src\engine\graphics\models\Primatives.cpp" />
     <ClCompile Include="src\engine\graphics\Renderer.cpp" />
-    <ClCompile Include="src\engine\graphics\SimpleRenderSystem.cpp" />
+    <ClCompile Include="src\engine\graphics\render systems\SimpleRenderSystem.cpp" />
     <ClCompile Include="src\engine\graphics\textures\Sampler.cpp" />
     <ClCompile Include="src\engine\graphics\textures\Texture.cpp" />
     <ClCompile Include="src\engine\graphics\textures\TextureManager.cpp" />
@@ -330,7 +330,7 @@
     <ClInclude Include="src\engine\graphics\FrameInfo.h" />
     <ClInclude Include="src\engine\graphics\models\Primatives.h" />
     <ClInclude Include="src\engine\graphics\Renderer.h" />
-    <ClInclude Include="src\engine\graphics\SimpleRenderSystem.h" />
+    <ClInclude Include="src\engine\graphics\render systems\SimpleRenderSystem.h" />
     <ClInclude Include="src\engine\graphics\textures\Sampler.h" />
     <ClInclude Include="src\engine\graphics\textures\Texture.h" />
     <ClInclude Include="src\engine\graphics\textures\TextureManager.h" />

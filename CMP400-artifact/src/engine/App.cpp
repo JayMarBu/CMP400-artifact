@@ -21,26 +21,12 @@ namespace JEngine
 			.AddPoolSize(VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, SwapChain::MAX_FRAMES_IN_FLIGHT)
 			.build();
 
-		LoadGameObjects();
+		
 	}
 
 	App::~App()
 	{
 		
-	}
-
-	void App::LoadGameObjects()
-	{
-		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/obamium.obj");
-		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primatives::Cube, false);
-
-		auto cube = GameObject::Create();
-
-		cube.model = model;
-		cube.transform.translation = { 0.f,0.f,.5f };
-		cube.transform.scale = glm::vec3(0.1f);
-
-		m_gameObjects.push_back(std::move(cube));
 	}
 
 	// Initializtion methods **********************************************************************
@@ -53,6 +39,7 @@ namespace JEngine
 			m_renderer.GetImageCount()
 			);
 
+		LoadGameObjects();
 		InitTextures();
 		InitUBO();
 		InitDescriptorPool();
@@ -104,6 +91,20 @@ namespace JEngine
 	void App::InitTextures()
 	{
 		m_textureManager.LoadTexture("bunny", "media/textures/bunny.png");
+	}
+
+	void App::LoadGameObjects()
+	{
+		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/obamium.obj");
+		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primatives::Cube, false);
+
+		auto cube = GameObject::Create();
+
+		cube.model = model;
+		cube.transform.translation = { 0.f,0.f,.5f };
+		cube.transform.scale = glm::vec3(0.1f);
+
+		m_gameObjects.push_back(std::move(cube));
 	}
 
 	// Run method *********************************************************************************
