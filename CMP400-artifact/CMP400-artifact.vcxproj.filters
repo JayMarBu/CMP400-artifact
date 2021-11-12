@@ -126,6 +126,15 @@
     <ClCompile Include="src\engine\graphics\render systems\SimpleRenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\engine\graphics\render systems\BaseRenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\graphics\render systems\debug\GizmoManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\graphics\render systems\debug\StaticLineRenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -248,9 +257,20 @@
     <ClInclude Include="src\engine\graphics\render systems\SimpleRenderSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\graphics\render systems\BaseRenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\render systems\debug\GizmoManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\render systems\debug\StaticLineRenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders\simple_shader\simple_shader.frag" />
     <CustomBuild Include="shaders\simple_shader\simple_shader.vert" />
+    <CustomBuild Include="shaders\gizmo_shader\gizmo_shader.frag" />
+    <CustomBuild Include="shaders\gizmo_shader\gizmo_shader.vert" />
   </ItemGroup>
 </Project>

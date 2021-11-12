@@ -95,20 +95,11 @@ namespace JEngine
 
 	struct ShaderPaths
 	{
-		enum PipelineType
-		{
-			RENDER,
-			COMPUTE
-		};
-
-		PipelineType type;
-
 		std::string vert_filepath{};
 		std::string frag_filepath{};
 		std::string hull_filepath{};
 		std::string geometry_filepath{};
 		std::string domain_filepath{};
-		std::string compute_filepath{};
 	};
 
 	class Pipeline
@@ -122,7 +113,12 @@ namespace JEngine
 
 		// Methods ********************************************************************************
 	public:
-		Pipeline(JEngine::Device& device, const std::string& vert_filepath, const std::string& frag_filepath, const PipelineConfigInfo& configInfo);
+		Pipeline(
+			JEngine::Device& device,
+			ShaderPaths shaderPaths,
+			const PipelineConfigInfo& configInfo,
+			const std::vector<VkVertexInputBindingDescription>& vertexBindingDesc = Model::Vertex::getBindingDescriptions(),
+			const std::vector<VkVertexInputAttributeDescription>& vertexAttribDesc = Model::Vertex::getAttributeDescriptions());
 		~Pipeline();
 
 		REMOVE_COPY_CONSTRUCTOR(Pipeline)
@@ -134,7 +130,13 @@ namespace JEngine
 	private:
 		static std::vector<char> ReadFile(const std::string& filepath);
 
-		void CreateGraphicsPipeline(const std::string& vert_filepath, const std::string& frag_filepath, const PipelineConfigInfo& configInfo);
+		void CreateGraphicsPipeline(
+			const std::string& vert_filepath,
+			const std::string& frag_filepath,
+			const PipelineConfigInfo& configInfo,
+			const std::vector<VkVertexInputBindingDescription>& vertexBindingDesc = Model::Vertex::getBindingDescriptions(),
+			const std::vector<VkVertexInputAttributeDescription>& vertexAttribDesc = Model::Vertex::getAttributeDescriptions()
+		);
 
 		void CreateShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 	};

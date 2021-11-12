@@ -13,15 +13,27 @@ namespace JEngine
 
 
 	SimpleRenderSystem::SimpleRenderSystem(Device& _device, VkRenderPass _renderPass, VkDescriptorSetLayout descriptorSet)
-		: m_device(_device)
+		: BaseRenderSystem(_device)//m_device(_device)
 	{
-		CreatePipelineLayout(descriptorSet);
-		CreatePipeline(_renderPass);
+		CreatePipelineLayout(descriptorSet, sizeof(SimplePushConstantData));
+
+		ShaderPaths shaderPaths{};
+
+		shaderPaths.vert_filepath = "shaders/simple_shader/simple_shader.vert.spv";
+		//shaderPaths.vert_filepath = "shaders/simple_shader/simple_shader.vert.spv";
+		shaderPaths.frag_filepath = "shaders/simple_shader/simple_shader.frag.spv";
+		//shaderPaths.frag_filepath = "shaders/simple_shader/simple_shader.frag.spv";
+
+
+		PipelineConfigInfo pipelineConfig{};
+		JEngine::Pipeline::DefaultPipelineConfigInfo(pipelineConfig);
+
+		CreatePipeline(_renderPass, shaderPaths, pipelineConfig);
 	}
 
 	SimpleRenderSystem::~SimpleRenderSystem()
 	{
-		vkDestroyPipelineLayout(m_device, m_pipelineLayout, nullptr);
+		//vkDestroyPipelineLayout(m_device, m_pipelineLayout, nullptr);
 	}
 
 	void SimpleRenderSystem::RenderGameObjects(FrameInfo& fInfo, std::vector<GameObject>& gameObjects)
@@ -60,43 +72,4 @@ namespace JEngine
 			obj.model->Draw(fInfo.commandBuffer);
 		}
 	}
-
-	void SimpleRenderSystem::CreatePipelineLayout(VkDescriptorSetLayout descriptorSet)
-	{
-		VkPushConstantRange pushConstantRange{};
-		pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
-		pushConstantRange.offset = 0;
-		pushConstantRange.size = sizeof(SimplePushConstantData);
-
-		std::vector<VkDescriptorSetLayout> descriptorSetLayouts{descriptorSet};
-
-		VkPipelineLayoutCreateInfo pipelineCreateInfo{};
-		pipelineCreateInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-		pipelineCreateInfo.setLayoutCount = static_cast<uint32_t>(descriptorSetLayouts.size());
-		pipelineCreateInfo.pSetLayouts = descriptorSetLayouts.data();
-		pipelineCreateInfo.pushConstantRangeCount = 1;
-		pipelineCreateInfo.pPushConstantRanges = &pushConstantRange;
-
-		SAFE_RUN_VULKAN_FUNC(vkCreatePipelineLayout(m_device, &pipelineCreateInfo, nullptr, &m_pipelineLayout), "failed to create pipelineLayout");
-	}
-
-
-	void SimpleRenderSystem::CreatePipeline(VkRenderPass renderPass)
-	{
-		assert(m_pipelineLayout != nullptr && "cannot create pipeline before pipeline layout");
-
-		PipelineConfigInfo pipelineConfig{};
-		JEngine::Pipeline::DefaultPipelineConfigInfo(pipelineConfig);
-
-		pipelineConfig.renderPass = renderPass;
-		pipelineConfig.pipelineLayout = m_pipelineLayout;
-
-		m_pipeline = std::make_unique<Pipeline>(
-			m_device,
-			"shaders/simple_shader/simple_shader.vert.spv",
-			"shaders/simple_shader/simple_shader.frag.spv",
-			pipelineConfig
-			);
-	}
-
 }

@@ -1,14 +1,21 @@
 #include "pch.h"
 #include "engine/graphics/Pipeline.h"
 
+
 JEngine::Pipeline::Pipeline(
 	JEngine::Device& device,
-	const std::string& vert_filepath,
-	const std::string& frag_filepath,
-	const PipelineConfigInfo& configInfo)
+	ShaderPaths shaderPaths,
+	const PipelineConfigInfo& configInfo,
+	const std::vector<VkVertexInputBindingDescription>& vertexBindingDesc,
+	const std::vector<VkVertexInputAttributeDescription>& vertexAttribDesc)
 	: m_device(device)
 {
-	CreateGraphicsPipeline(vert_filepath, frag_filepath, configInfo);
+	CreateGraphicsPipeline(
+		shaderPaths.vert_filepath,
+		shaderPaths.frag_filepath,
+		configInfo,
+		vertexBindingDesc,
+		vertexAttribDesc);
 }
 
 void JEngine::Pipeline::DefaultPipelineConfigInfo(PipelineConfigInfo& configInfo)
@@ -113,7 +120,13 @@ std::vector<char> JEngine::Pipeline::ReadFile(const std::string& filepath)
 	return buffer;
 }
 
-void JEngine::Pipeline::CreateGraphicsPipeline(const std::string& vert_filepath, const std::string& frag_filepath, const PipelineConfigInfo& configInfo)
+void JEngine::Pipeline::CreateGraphicsPipeline(
+	const std::string& vert_filepath,
+	const std::string& frag_filepath,
+	const PipelineConfigInfo& configInfo,
+	const std::vector<VkVertexInputBindingDescription>& vertexBindingDesc,
+	const std::vector<VkVertexInputAttributeDescription>& vertexAttribDesc
+)
 {
 	assert(configInfo.pipelineLayout != VK_NULL_HANDLE && "cannot create graphics pipeline:: no pipelineLayout provided in configInfo");
 	assert(configInfo.renderPass != VK_NULL_HANDLE && "cannot create graphics pipeline:: no renderPass provided in configInfo");
@@ -153,12 +166,12 @@ void JEngine::Pipeline::CreateGraphicsPipeline(const std::string& vert_filepath,
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 
-	auto bindingDescription = Model::Vertex::getBindingDescriptions();
-	auto attributeDescriptions = Model::Vertex::getAttributeDescriptions();
-	vertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(bindingDescription.size());
-	vertexInputInfo.pVertexBindingDescriptions = bindingDescription.data();
-	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
-	vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
+	//auto bindingDescription = Model::Vertex::getBindingDescriptions();
+	//auto attributeDescriptions = Model::Vertex::getAttributeDescriptions();
+	vertexInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(vertexBindingDesc.size());
+	vertexInputInfo.pVertexBindingDescriptions = vertexBindingDesc.data();
+	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(vertexAttribDesc.size());
+	vertexInputInfo.pVertexAttributeDescriptions = vertexAttribDesc.data();
 
 	// create pipeline info struct
 	VkGraphicsPipelineCreateInfo pipelineInfo{};

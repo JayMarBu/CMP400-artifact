@@ -39,10 +39,12 @@ namespace JEngine
 			m_renderer.GetImageCount()
 			);
 
+
 		LoadGameObjects();
 		InitTextures();
 		InitUBO();
 		InitDescriptorPool();
+		InitRenderSystems();
 	}
 
 	void App::InitUBO()
@@ -85,7 +87,13 @@ namespace JEngine
 				.Build(m_globalDescriptorSets[i]);
 		}
 
+		//m_simpleRenderSystem = std::make_unique<SimpleRenderSystem>(m_device, m_renderer.getSwapChainRenderPass(), m_globalSetLayout->GetDescriptorSetLayout());
+	}
+
+	void App::InitRenderSystems()
+	{
 		m_simpleRenderSystem = std::make_unique<SimpleRenderSystem>(m_device, m_renderer.getSwapChainRenderPass(), m_globalSetLayout->GetDescriptorSetLayout());
+		m_gizmoRenderSystem = std::make_unique<StaticLineRenderSystem>(m_device, m_renderer.getSwapChainRenderPass());
 	}
 
 	void App::InitTextures()
@@ -132,7 +140,7 @@ namespace JEngine
 		m_camera.camera.SetViewXYZ(m_camera.gObject.transform.translation, m_camera.gObject.transform.rotation);
 
 		float aspect = m_renderer.GetAspectRatio();
-		m_camera.camera.SetPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.0f);
+		m_camera.camera.SetPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.0f);
 	}
 
 	void App::Render()
@@ -165,6 +173,7 @@ namespace JEngine
 
 		m_simpleRenderSystem->RenderGameObjects(fInfo, m_gameObjects);
 
+		m_gizmoRenderSystem->RenderGizmos(fInfo, m_gizmoManager);
 		
 		DrawGui();
 

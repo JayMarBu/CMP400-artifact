@@ -13,11 +13,14 @@
 #include "engine/graphics/Buffer.h"
 
 #include "engine/graphics/render systems/SimpleRenderSystem.h"
+#include "engine/graphics/render systems/debug/StaticLineRenderSystem.h"
 
 #include "engine/GuiManager.h"
 
 #include "engine/graphics/textures/TextureManager.h"
 #include "engine/graphics/textures/Sampler.h"
+
+#include "engine/graphics/render systems/debug/GizmoManager.h"
 
 namespace JEngine
 {
@@ -55,11 +58,14 @@ namespace JEngine
 		std::unique_ptr<GuiManager> m_imguiManager;
 
 		std::unique_ptr<SimpleRenderSystem> m_simpleRenderSystem;
+		std::unique_ptr<StaticLineRenderSystem> m_gizmoRenderSystem;
 
 		std::vector<GameObject> m_gameObjects;
 		CameraWrapper m_camera{};
 
 		Sampler m_sampler{m_device};
+
+		GizmoManager m_gizmoManager{m_device};
 
 		// Methods ********************************************************************************
 	public:
@@ -78,6 +84,7 @@ namespace JEngine
 
 		void InitUBO();
 		void InitDescriptorPool();
+		void InitRenderSystems();
 		void InitTextures();
 
 		void DrawGui();
