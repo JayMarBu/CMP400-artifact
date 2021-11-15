@@ -271,6 +271,18 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="external\implot\implot.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\implot\implot_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="external\implot\implot_items.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="external\tinyobjloader\tiny_obj_loader.cc" />
     <ClCompile Include="src\engine\App.cpp" />
     <ClCompile Include="src\engine\Camera.cpp" />
@@ -296,6 +308,7 @@
     <ClCompile Include="src\engine\system\FrameTimer.cpp" />
     <ClCompile Include="src\engine\system\Input.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\engine\maths\Random.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -324,6 +337,8 @@
     <ClInclude Include="external\imgui\imstb_rectpack.h" />
     <ClInclude Include="external\imgui\imstb_textedit.h" />
     <ClInclude Include="external\imgui\imstb_truetype.h" />
+    <ClInclude Include="external\implot\implot.h" />
+    <ClInclude Include="external\implot\implot_internal.h" />
     <ClInclude Include="external\stb\stb_image.h" />
     <ClInclude Include="external\tinyobjloader\tiny_obj_loader.h" />
     <ClInclude Include="src\engine\App.h" />
@@ -349,6 +364,7 @@
     <ClInclude Include="src\engine\system\FrameTimer.h" />
     <ClInclude Include="src\engine\KeyboardMovementController.h" />
     <ClInclude Include="src\engine\system\Input.h" />
+    <ClInclude Include="src\engine\maths\Random.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\engine\system\Window.h" />
     <ClInclude Include="src\utils\Utils.h" />

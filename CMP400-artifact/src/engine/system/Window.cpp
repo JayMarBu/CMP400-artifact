@@ -74,6 +74,28 @@ void JEngine::Window::MouseButtonCallback(GLFWwindow* window, int button, int ac
 	}
 }
 
+void JEngine::Window::MouseScrollWheelCallBack(GLFWwindow* window, double xoffset, double yoffset)
+{
+	Window* thisWindow = (Window*)glfwGetWindowUserPointer(window);
+
+}
+
+void JEngine::Window::CursorEnterCallback(GLFWwindow* window, int entered)
+{
+	Window* thisWindow = (Window*)glfwGetWindowUserPointer(window);
+
+	if (entered)
+	{
+		// The cursor entered the content area of the window
+		thisWindow->m_input->setMouseActive(true);
+	}
+	else
+	{
+		// The cursor left the content area of the window
+		thisWindow->m_input->setMouseActive(false);
+	}
+}
+
 JEngine::Window::~Window()
 {
 	glfwDestroyWindow(m_window);
@@ -87,11 +109,15 @@ void JEngine::Window::InitWindow()
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
 	m_window = glfwCreateWindow(width, height, name.c_str(), nullptr, nullptr);
+	m_input->SetWindowSize(width, height);
+	m_input->setMouseX(width / 2);
+	m_input->setMouseY(height / 2);
 	glfwSetWindowUserPointer(m_window, this);
 	glfwSetFramebufferSizeCallback(m_window, FrameBufferResizedCallback);
 	glfwSetKeyCallback(m_window, KeyCallBack);
 	glfwSetCursorPosCallback(m_window, CursorPositionCallback);
 	glfwSetMouseButtonCallback(m_window, MouseButtonCallback);
+	glfwSetCursorEnterCallback(m_window, CursorEnterCallback);
 }
 
 void JEngine::Window::FrameBufferResizedCallback(GLFWwindow* window, int w, int h)
@@ -101,4 +127,5 @@ void JEngine::Window::FrameBufferResizedCallback(GLFWwindow* window, int w, int 
 	Jwindow->width = w;
 	Jwindow->height = h;
 
+	Jwindow->m_input->SetWindowSize(w, h);
 }

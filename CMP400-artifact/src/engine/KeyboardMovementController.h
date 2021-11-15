@@ -36,6 +36,7 @@ namespace JEngine
 	public:
 
 		void MoveInPlaneXZ(Window* window, float dt, GameObject &gameObject, Input* input);
+		void MoveInPlaneXY(Window* window, float dt, GameObject &gameObject, Input* input);
 
 		void DrawGui(GameObject& gameObject);
 	};

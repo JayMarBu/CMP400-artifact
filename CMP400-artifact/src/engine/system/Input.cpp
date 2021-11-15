@@ -193,6 +193,16 @@ namespace JEngine
 		return mouse.isActive;
 	}
 
+	void Input::setMouseBlocked(bool blocked)
+	{
+		mouse.isBlocked = blocked;
+	}
+
+	bool Input::isMouseBlocked()
+	{
+		return mouse.isBlocked;
+	}
+
 	void Input::SetMouseToCentre(Window* window)
 	{
 		glfwSetCursorPos(window->GetGLFWWindow(), window->getExtent().width / 2, window->getExtent().height / 2);

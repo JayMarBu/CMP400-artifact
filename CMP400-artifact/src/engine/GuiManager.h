@@ -14,6 +14,8 @@ namespace JEngine
 
 	class GuiManager {
 	public:
+		bool mouseIsInGuiBounds = false;
+
 		GuiManager(Window& window, Device& device, VkRenderPass renderPass, uint32_t imageCount);
 		~GuiManager();
 

@@ -10,7 +10,7 @@ namespace JEngine
 		struct Mouse
 		{
 			int x, y;
-			bool left, right, isActive;
+			bool left, right, isActive, isBlocked;
 		};
 
 	public:
@@ -29,14 +29,22 @@ namespace JEngine
 		bool isRightMouseDown();		///< Check right mouse click
 		void setMouseActive(bool active);	///< Set mouse in/active
 		bool isMouseActive();			///< Check if mouse is in/active
+		void setMouseBlocked(bool blocked);	///< Set mouse in/active
+		bool isMouseBlocked();			///< Check if mouse is in/active
 
 		void SetMouseToCentre(Window* window);
 
 		static std::unordered_map<int, int> key_index_map;
 
+		inline void SetWindowSize(int x, int y) { window_width = x; window_height = y; }
+		inline int GetWindowWidth() const { return window_width; }
+		inline int GetWindowHeight() const { return window_height; }
+
 	private:
 		bool keys[256];		///< Array for storing key states
 		Mouse mouse;		///< Mouse state variable
+
+		int window_width, window_height;
 
 	};
 }

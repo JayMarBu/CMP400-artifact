@@ -8,13 +8,13 @@ namespace JEngine
 	{
 		glm::vec3 rotate{ 0.0f };
 
-		if (glfwGetKey(window->GetGLFWWindow(), keys.lookRight) == GLFW_PRESS)
+		if (input->isKeyDown(keys.lookRight))
 			rotate.y += 1;
-		if (glfwGetKey(window->GetGLFWWindow(), keys.lookLeft) == GLFW_PRESS)
+		if (input->isKeyDown(keys.lookLeft))
 			rotate.y -= 1;
-		if (glfwGetKey(window->GetGLFWWindow(), keys.lookUp) == GLFW_PRESS)
+		if (input->isKeyDown(keys.lookUp))
 			rotate.x += 1;
-		if (glfwGetKey(window->GetGLFWWindow(), keys.lookDown) == GLFW_PRESS)
+		if (input->isKeyDown(keys.lookDown))
 			rotate.x -= 1;
 
 		if (input->isRightMouseDown())
@@ -60,6 +60,54 @@ namespace JEngine
 			moveDir += upDir;
 		if (input->isKeyDown(keys.moveDown))
 			moveDir -= upDir;
+
+		if (VEC_IS_ZERO(moveDir))
+			gameObject.transform.translation += moveSpeed * dt * glm::normalize(moveDir);
+
+	}
+
+	void KeyboardMovementController::MoveInPlaneXY(Window* window, float dt, GameObject& gameObject, Input* input)
+	{
+		const glm::vec3 forwardDir{ 0, 0.0f, 1 };
+		const glm::vec3 rightDir{ forwardDir.z, 0.0f, -forwardDir.x };
+		const glm::vec3 upDir{ 0.0f, -1.0f, 0.0f };
+
+		glm::vec3 moveDir{ 0 };
+
+		if (input->isKeyDown(keys.moveRight))
+			moveDir += rightDir;
+		if (input->isKeyDown(keys.moveLeft))
+			moveDir -= rightDir;
+		if (input->isKeyDown('Q'))
+			moveDir += forwardDir;
+		if (input->isKeyDown('E'))
+			moveDir -= forwardDir;
+		if (input->isKeyDown(keys.moveForward))
+			moveDir += upDir;
+		if (input->isKeyDown(keys.moveBack))
+			moveDir -= upDir;
+
+		int window_border = 20;
+
+		if (input->isMouseActive() && !input->isMouseBlocked() && input->getMouseX() <= input->GetWindowWidth() / window_border)
+		{
+			moveDir -= rightDir;
+		}
+
+		if (input->isMouseActive() && !input->isMouseBlocked() && input->getMouseX() >= input->GetWindowWidth() - (input->GetWindowWidth() / window_border))
+		{
+			moveDir += rightDir;
+		}
+
+		if (input->isMouseActive() && !input->isMouseBlocked() && input->getMouseY() <= input->GetWindowHeight() / window_border)
+		{
+			moveDir += upDir;
+		}
+
+		if (input->isMouseActive() && !input->isMouseBlocked() && input->getMouseY() >= input->GetWindowHeight() - (input->GetWindowHeight() / window_border))
+		{
+			moveDir -= upDir;
+		}
 
 		if (VEC_IS_ZERO(moveDir))
 			gameObject.transform.translation += moveSpeed * dt * glm::normalize(moveDir);

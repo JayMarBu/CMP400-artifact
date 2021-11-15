@@ -34,6 +34,7 @@ namespace JEngine
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
+		ImPlot::CreateContext();
 		ImGuiIO& io = ImGui::GetIO();
 		(void)io;
 		// io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
@@ -78,6 +79,7 @@ namespace JEngine
 		vkDestroyDescriptorPool(m_device.device(), descriptorPool, nullptr);
 		ImGui_ImplVulkan_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
+		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 	}
 
@@ -86,6 +88,10 @@ namespace JEngine
 		ImGui_ImplVulkan_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+
+		ImGuiIO& io = ImGui::GetIO();
+
+		mouseIsInGuiBounds = io.WantCaptureMouse;
 	}
 
 	void GuiManager::render(VkCommandBuffer commandBuffer)

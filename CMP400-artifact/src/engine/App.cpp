@@ -5,6 +5,8 @@
 
 #include "engine/graphics/models/Primatives.h"
 
+#include "engine/maths/Random.h"
+
 namespace JEngine
 {
 	struct GlobalUBO
@@ -14,6 +16,7 @@ namespace JEngine
 	};
 
 	App::App()
+		:m_gizmoManager(m_device)
 	{
 		m_globalPool = DescriptorPool::Builder(m_device)
 			.SetMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -39,8 +42,12 @@ namespace JEngine
 			m_renderer.GetImageCount()
 			);
 
+		m_gizmoManager.CreateCentreGrid(TWO_D);
 
-		LoadGameObjects();
+		m_example1.mean = 40;
+		m_example1.standardDeviation = 2;
+
+		InitGameObjects();
 		InitTextures();
 		InitUBO();
 		InitDescriptorPool();
@@ -101,16 +108,18 @@ namespace JEngine
 		m_textureManager.LoadTexture("bunny", "media/textures/bunny.png");
 	}
 
-	void App::LoadGameObjects()
+	void App::InitGameObjects()
 	{
+		m_camera.gObject.transform.translation = { 0.0f,0.0f,-5 };
+
 		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/obamium.obj");
 		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primatives::Cube, false);
 
 		auto cube = GameObject::Create();
 
 		cube.model = model;
-		cube.transform.translation = { 0.f,0.f,.5f };
-		cube.transform.scale = glm::vec3(0.1f);
+		cube.transform.translation = { 0.f,0.f,-.5f };
+		//cube.transform.scale = glm::vec3(0.1f);
 
 		m_gameObjects.push_back(std::move(cube));
 	}
@@ -136,11 +145,18 @@ namespace JEngine
 	// Main Loop Methods **************************************************************************
 	void App::Update()
 	{
-		m_camera.controller.MoveInPlaneXZ(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
+		m_imguiManager->newFrame();
+		m_input.setMouseBlocked(m_imguiManager->mouseIsInGuiBounds);
+
+		GenerateGui();
+
+		//m_camera.controller.MoveInPlaneXZ(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
+		m_camera.controller.MoveInPlaneXY(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
 		m_camera.camera.SetViewXYZ(m_camera.gObject.transform.translation, m_camera.gObject.transform.rotation);
 
 		float aspect = m_renderer.GetAspectRatio();
 		m_camera.camera.SetPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.0f);
+		//m_camera.camera.SetOthographicProjection({ -8,2,-5 }, { 8,-2,5 });
 	}
 
 	void App::Render()
@@ -148,8 +164,6 @@ namespace JEngine
 		auto commandBuffer = m_renderer.BeginFrame();
 		if (!commandBuffer)
 			return;
-		
-		m_imguiManager->newFrame();
 
 		// ****** fill frame info struct ******
 		FrameInfo fInfo{
@@ -174,8 +188,6 @@ namespace JEngine
 		m_simpleRenderSystem->RenderGameObjects(fInfo, m_gameObjects);
 
 		m_gizmoRenderSystem->RenderGizmos(fInfo, m_gizmoManager);
-		
-		DrawGui();
 
 		// stop rendering your stuff
 		m_imguiManager->render(commandBuffer);
@@ -185,7 +197,7 @@ namespace JEngine
 	}
 
 
-	void App::DrawGui()
+	void App::GenerateGui()
 	{
 		ImGui::Begin("Test");
 
@@ -200,6 +212,82 @@ namespace JEngine
 			m_input.getMouseY());
 
 		m_camera.controller.DrawGui(m_camera.gObject);
+
+		if (ImGui::CollapsingHeader("box moore examples"))
+		{
+			ImGui::Indent(10);
+
+			if (ImGui::CollapsingHeader("box moore example 1: 2d distribution"))
+			{
+				ImGui::Indent(10);
+				static int NumGenerations = 1;
+				if (ImGui::InputInt("Number of Points Generated##int", &NumGenerations))
+				{
+					m_example1.numsX.clear();
+					m_example1.numsY.clear();
+				}
+
+				if (ImGui::InputFloat("Mean value", &m_example1.mean))
+				{
+					m_example1.numsX.clear();
+					m_example1.numsY.clear();
+				}
+				if(ImGui::InputFloat("standard deviation value", &m_example1.standardDeviation))
+				{
+					m_example1.numsX.clear();
+					m_example1.numsY.clear();
+				}
+
+				if (ImGui::Button("Generate Box-Moore value##button"))
+				{
+					for (int i = 0; i < NumGenerations; i++)
+					{
+						auto nums = maths::BoxMullerPair(m_example1.mean, m_example1.standardDeviation);
+						m_example1.numsX.push_back(nums.first);
+						m_example1.numsY.push_back(nums.second);
+					}
+				}
+
+
+				bool hasData = !m_example1.numsX.empty() && !m_example1.numsY.empty();
+
+				if (ImPlot::BeginPlot("test plot"))
+				{
+					if (hasData)
+					{
+						ImPlot::PlotScatter("box-moore scatter", m_example1.numsX.data(), m_example1.numsY.data(), static_cast<uint32_t>(m_example1.numsX.size()));
+					}
+					ImPlot::EndPlot();
+				}
+
+				ImGui::Columns(2, "##example_1 columns");
+
+				if (ImPlot::BeginPlot("test plot 2 x"))
+				{
+					if (hasData)
+					{
+						ImPlot::PlotHistogram("box-moore histogram", m_example1.numsX.data(), m_example1.numsX.size());
+					}
+					ImPlot::EndPlot();
+				}
+
+				ImGui::NextColumn();
+
+
+				if (ImPlot::BeginPlot("test plot 2 y"))
+				{
+					if (hasData)
+					{
+						ImPlot::PlotHistogram("box-moore histogram", m_example1.numsY.data(), m_example1.numsY.size());
+					}
+					ImPlot::EndPlot();
+				}
+				ImGui::Columns();
+				ImGui::Indent(-10);
+			}
+
+			ImGui::Indent(-10);
+		}
 
 		ImGui::End();
 	}

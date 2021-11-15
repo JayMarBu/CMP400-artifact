@@ -37,8 +37,8 @@ namespace JEngine
 	{
 		// Members ********************************************************************************
 	public:
-		static constexpr int WIDTH = 800;
-		static constexpr int HEIGHT = 600;
+		static constexpr int WIDTH = 1440;
+		static constexpr int HEIGHT = 816;
 
 	private:
 		JEngine::Input m_input;
@@ -65,7 +65,21 @@ namespace JEngine
 
 		Sampler m_sampler{m_device};
 
-		GizmoManager m_gizmoManager{m_device};
+		GizmoManager m_gizmoManager;
+
+		struct BoxMooreWrapper
+		{
+			float mean;
+			float standardDeviation;
+
+			std::vector<double> numsX;
+			std::vector<double> numsY;
+		};
+
+		BoxMooreWrapper m_example1;
+
+		//std::vector<double> m_boxMooreNumsX;
+		//std::vector<double> m_boxMooreNumsY;
 
 		// Methods ********************************************************************************
 	public:
@@ -80,14 +94,14 @@ namespace JEngine
 		void Init();
 		void Update();
 		void Render();
-		void LoadGameObjects();
+		void InitGameObjects();
 
 		void InitUBO();
 		void InitDescriptorPool();
 		void InitRenderSystems();
 		void InitTextures();
 
-		void DrawGui();
+		void GenerateGui();
 	};
 
 }
