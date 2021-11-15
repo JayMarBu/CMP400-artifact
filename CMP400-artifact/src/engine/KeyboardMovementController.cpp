@@ -130,6 +130,13 @@ namespace JEngine
 				ImGui::Text("\tQ to descend");
 			}
 
+			if (ImGui::Checkbox("2d camera controls##bool", &two_D))
+			{
+				if (two_D == true)
+				{
+					gameObject.transform.rotation = { 0,0,0 };
+				}
+			}
 			ImGui::Text(("Position: (" + std::to_string(gameObject.transform.translation.x) + ", " + std::to_string(gameObject.transform.translation.y) + ", " + std::to_string(gameObject.transform.translation.z) + ")").c_str());
 			ImGui::Text(("rotation: (" + std::to_string(gameObject.transform.rotation.x) + ", " + std::to_string(gameObject.transform.rotation.y) + ", " + std::to_string(gameObject.transform.rotation.z) + ")").c_str());
 			ImGui::SliderFloat("Camera move speed", &moveSpeed, 0.1f, 10.0f);

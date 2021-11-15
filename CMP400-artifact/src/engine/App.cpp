@@ -3,7 +3,7 @@
 
 #include "engine/graphics/FrameInfo.h"
 
-#include "engine/graphics/models/Primatives.h"
+#include "engine/graphics/models/Primitives.h"
 
 #include "engine/maths/Random.h"
 
@@ -16,7 +16,6 @@ namespace JEngine
 	};
 
 	App::App()
-		:m_gizmoManager(m_device)
 	{
 		m_globalPool = DescriptorPool::Builder(m_device)
 			.SetMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT)
@@ -42,8 +41,11 @@ namespace JEngine
 			m_renderer.GetImageCount()
 			);
 
-		m_gizmoManager.CreateCentreGrid(TWO_D);
-		m_gizmoManager.WriteToVertexBuffer();
+
+		m_gizmoManager = std::make_unique<GizmoManager>(m_device);
+
+		m_gizmoManager->CreateCentreGrid(TWO_D);
+		m_gizmoManager->WriteToVertexBuffer();
 
 		m_example1.mean = 40;
 		m_example1.standardDeviation = 2;
@@ -100,7 +102,18 @@ namespace JEngine
 
 	void App::InitRenderSystems()
 	{
-		m_simpleRenderSystem = std::make_unique<SimpleRenderSystem>(m_device, m_renderer.getSwapChainRenderPass(), m_globalSetLayout->GetDescriptorSetLayout());
+		m_simpleRenderSystem = std::make_unique<SimpleRenderSystem>(
+			m_device,
+			m_renderer.getSwapChainRenderPass(),
+			m_globalSetLayout->GetDescriptorSetLayout(),
+			"shaders/simple_shader/simple_shader.vert.spv",
+			"shaders/simple_shader/simple_shader.frag.spv");
+		m_simpleNoShadingRenderSystem = std::make_unique<SimpleRenderSystem>(
+			m_device,
+			m_renderer.getSwapChainRenderPass(),
+			m_globalSetLayout->GetDescriptorSetLayout(),
+			"shaders/simple_no_shading/simple_shader.vert.spv",
+			"shaders/simple_no_shading/simple_shader.frag.spv");
 		m_gizmoRenderSystem = std::make_unique<StaticLineRenderSystem>(m_device, m_renderer.getSwapChainRenderPass());
 	}
 
@@ -114,15 +127,22 @@ namespace JEngine
 		m_camera.gObject.transform.translation = { 0.0f,0.0f,-5 };
 
 		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/obamium.obj");
-		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primatives::Line);
+		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primitives::Cube, false);
 
 		auto cube = GameObject::Create();
 
 		cube.model = model;
 		cube.transform.translation = { 0.f,0.f,-.01f };
-		//cube.transform.scale = glm::vec3(0.1f);
 
 		m_gameObjects.push_back(std::move(cube));
+
+		auto line = GameObject::Create();
+
+		m_gizmoManager->CreateLineObj(line, { 0.5,0,0 }, { 0,0,90 }, 2, 3, {1,0,0});
+
+		line.transform.parent = &m_gameObjects[0].transform;
+		
+		m_gizmoManager->linesObjs.push_back(std::move(line));
 	}
 
 	// Run method *********************************************************************************
@@ -151,13 +171,24 @@ namespace JEngine
 
 		GenerateGui();
 
-		m_camera.controller.MoveInPlaneXZ(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
+		// ********** update camera **********
+		if(m_camera.controller.two_D)
+			m_camera.controller.MoveInPlaneXY(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
+		else
+			m_camera.controller.MoveInPlaneXZ(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
 		//m_camera.controller.MoveInPlaneXY(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
 		m_camera.camera.SetViewXYZ(m_camera.gObject.transform.translation, m_camera.gObject.transform.rotation);
 
 		float aspect = m_renderer.GetAspectRatio();
 		m_camera.camera.SetPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.0f);
-		//m_camera.camera.SetOthographicProjection({ -8,2,-5 }, { 8,-2,5 });
+
+		// ********** update game objects **********
+
+		GameObject* obj = &m_gameObjects[0];
+
+		obj->transform.rotation.y = glm::mod(obj->transform.rotation.y + (1.0f*m_timer.getTime()), glm::two_pi<float>());
+		obj->transform.rotation.x = glm::mod(obj->transform.rotation.x + (0.1f*m_timer.getTime()), glm::two_pi<float>());
+
 	}
 
 	void App::Render()
@@ -187,8 +218,9 @@ namespace JEngine
 		// render your stuff here
 
 		m_simpleRenderSystem->RenderGameObjects(fInfo, m_gameObjects);
+		m_simpleNoShadingRenderSystem->RenderGameObjects(fInfo, m_gizmoManager->linesObjs);
 
-		m_gizmoRenderSystem->RenderGizmos(fInfo, m_gizmoManager);
+		m_gizmoRenderSystem->RenderGizmos(fInfo, *m_gizmoManager);
 
 		// stop rendering your stuff
 		m_imguiManager->render(commandBuffer);

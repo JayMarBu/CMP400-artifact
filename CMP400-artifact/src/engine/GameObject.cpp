@@ -12,7 +12,7 @@ namespace JEngine
 		const float s2 = glm::sin(rotation.x);
 		const float c1 = glm::cos(rotation.y);
 		const float s1 = glm::sin(rotation.y);
-		return glm::mat4{
+		glm::mat4 mat{
 			{
 				scale.x * (c1 * c3 + s1 * s2 * s3),
 				scale.x * (c2 * s3),
@@ -32,6 +32,11 @@ namespace JEngine
 				0.0f,
 			},
 			{translation.x, translation.y, translation.z, 1.0f} };
+
+		if (parent == nullptr)
+			return mat;
+
+		return parent->mat4() * mat;
 	}
 
 	glm::mat3 CTransform::invRotationMat()

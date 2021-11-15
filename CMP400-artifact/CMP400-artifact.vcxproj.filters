@@ -117,9 +117,6 @@
     <ClCompile Include="src\engine\graphics\models\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\models\Primatives.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\graphics\textures\Sampler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -148,6 +145,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\graphics\models\Primitives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -263,9 +263,6 @@
     <ClInclude Include="src\engine\graphics\models\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\models\Primatives.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\graphics\textures\Sampler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -293,11 +290,16 @@
     <ClInclude Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\graphics\models\Primitives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="shaders\simple_shader\simple_shader.frag" />
     <CustomBuild Include="shaders\simple_shader\simple_shader.vert" />
     <CustomBuild Include="shaders\gizmo_shader\gizmo_shader.frag" />
     <CustomBuild Include="shaders\gizmo_shader\gizmo_shader.vert" />
+    <CustomBuild Include="shaders\simple_no_shading\simple_shader.frag" />
+    <CustomBuild Include="shaders\simple_no_shading\simple_shader.vert" />
   </ItemGroup>
 </Project>

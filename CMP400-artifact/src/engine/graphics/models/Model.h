@@ -36,7 +36,7 @@ namespace JEngine
 			std::vector<uint32_t> indices{};
 
 			void LoadModel(const std::string& filepath);
-			void LoadModel(Primative primative, bool useIndices = false);
+			void LoadModel(Primitive primative, bool useIndices = false, glm::vec3 colour = {1,1,1});
 		};
 
 	private:
@@ -61,7 +61,7 @@ namespace JEngine
 		void Draw(VkCommandBuffer commandBuffer);
 
 		static std::unique_ptr<Model> CreateModelFromFile(Device& device, const std::string& filepath);
-		static std::unique_ptr<Model> CreateModelFromPrimative(Device& device, Primative primative, bool useIndex = true);
+		static std::unique_ptr<Model> CreateModelFromPrimative(Device& device, Primitive primative, bool useIndex = true, glm::vec3 colour = {1,1,1});
 
 	private:
 

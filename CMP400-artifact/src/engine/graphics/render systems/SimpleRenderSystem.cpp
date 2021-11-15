@@ -12,16 +12,21 @@ namespace JEngine
 	};
 
 
-	SimpleRenderSystem::SimpleRenderSystem(Device& _device, VkRenderPass _renderPass, VkDescriptorSetLayout descriptorSet)
+	SimpleRenderSystem::SimpleRenderSystem(
+		Device& _device,
+		VkRenderPass _renderPass,
+		VkDescriptorSetLayout descriptorSet,
+		const std::string& vert_filepath,
+		const std::string& frag_filepath)
 		: BaseRenderSystem(_device)//m_device(_device)
 	{
 		CreatePipelineLayout(descriptorSet, sizeof(SimplePushConstantData));
 
 		ShaderPaths shaderPaths{};
 
-		shaderPaths.vert_filepath = "shaders/simple_shader/simple_shader.vert.spv";
+		shaderPaths.vert_filepath = vert_filepath;
 		//shaderPaths.vert_filepath = "shaders/simple_shader/simple_shader.vert.spv";
-		shaderPaths.frag_filepath = "shaders/simple_shader/simple_shader.frag.spv";
+		shaderPaths.frag_filepath = frag_filepath;
 		//shaderPaths.frag_filepath = "shaders/simple_shader/simple_shader.frag.spv";
 
 

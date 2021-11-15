@@ -1,14 +1,14 @@
 #include "pch.h"
-#include "engine/graphics/models/Primatives.h"
+#include "engine/graphics/models/Primitives.h"
 #define COLOUR_WHITE {1.0f,1.0f,1.0f}
 #define NORMAL(x,y,z) glm::normalize(glm::vec3(x,y,z))
 
 namespace JEngine
 {
-	namespace Primatives
+	namespace Primitives
 	{
 
-		void Cube(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices)
+		void Cube(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices, glm::vec3 colour)
 		{
 			const float u = 0.5f;
 
@@ -158,22 +158,22 @@ namespace JEngine
 			
 		}
 
-		void Line(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices)
+		void Line(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices, glm::vec3 colour)
 		{
 			if (vertices == nullptr || indices == nullptr)
 				throw std::runtime_error("nullptr error, either vertex or index array are not present");
 
 			*vertices = {
-			{{0.f, 0.f, -0.01f},			COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 0
-			{{0.f, -1.f, -0.01f},			COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 1
-			{{0.0095106, 0.f, -0.0030902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 2
-			{{0.0095106, -1.f, -0.0030902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 3
-			{{0.0058779, 0.f, 0.0080902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 4
-			{{0.0058779, -1.f, 0.0080902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 5
-			{{-0.0058779, 0.f, 0.0080902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 6
-			{{-0.0058779, -1.f, 0.0080902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 7
-			{{-0.0095106, 0.f, -0.0030902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 8
-			{{-0.0095106, -1.f, -0.0030902},COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 9
+			{{0.f, 0.f, -0.01f},			colour, NORMAL(0,0,0),	{0,0}}, // 0
+			{{0.f, -1.f, -0.01f},			colour, NORMAL(0,0,0),	{0,0} },// 1
+			{{0.0095106, 0.f, -0.0030902},	colour, NORMAL(0,0,0),	{0,0}}, // 2
+			{{0.0095106, -1.f, -0.0030902},	colour, NORMAL(0,0,0),	{0,0} },// 3
+			{{0.0058779, 0.f, 0.0080902},	colour, NORMAL(0,0,0),	{0,0}}, // 4
+			{{0.0058779, -1.f, 0.0080902},	colour, NORMAL(0,0,0),	{0,0} },// 5
+			{{-0.0058779, 0.f, 0.0080902},	colour, NORMAL(0,0,0),	{0,0}}, // 6
+			{{-0.0058779, -1.f, 0.0080902},	colour, NORMAL(0,0,0),	{0,0} },// 7
+			{{-0.0095106, 0.f, -0.0030902},	colour, NORMAL(0,0,0),	{0,0}}, // 8
+			{{-0.0095106, -1.f, -0.0030902},colour, NORMAL(0,0,0),	{0,0} },// 9
 			};
 
 			*indices = {

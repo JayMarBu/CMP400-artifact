@@ -31,7 +31,7 @@ void main()
 
 	float lightIntensity = AMBIENT + max(dot(normalWorldSpace, ubo.lightDir),0);
 
-	outColour = lightIntensity*colour;
-	//outColour = colour;
+	//outColour = lightIntensity*colour;
+	outColour = colour;
 	outTexCoord = uv;
 }

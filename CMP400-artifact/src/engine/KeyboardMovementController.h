@@ -31,6 +31,8 @@ namespace JEngine
 		float turnSpeed{ 5.f };
 
 		int deltax, deltay;
+
+		bool two_D = true;
 		// Methods ********************************************************************************
 
 	public:

@@ -18,7 +18,7 @@
 
 namespace JEngine
 {
-	#define Primative std::function<void(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices)>
+	#define Primitive std::function<void(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices, glm::vec3 colour)>
 
 	// from: https://stackoverflow.com/a/57595105
 	template <typename T, typename... Rest>

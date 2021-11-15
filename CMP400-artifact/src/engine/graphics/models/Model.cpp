@@ -89,10 +89,10 @@ namespace JEngine
 		return std::make_unique<Model>(device, builder);
 	}
 
-	std::unique_ptr<Model> Model::CreateModelFromPrimative(Device& device, Primative primative, bool useIndex /*= true*/)
+	std::unique_ptr<Model> Model::CreateModelFromPrimative(Device& device, Primitive primative, bool useIndex /*= true*/, glm::vec3 colour)
 	{
 		Builder builder{};
-		builder.LoadModel(primative, useIndex);
+		builder.LoadModel(primative, useIndex, colour);
 
 		return std::make_unique<Model>(device, builder);
 	}
@@ -234,9 +234,9 @@ namespace JEngine
 		}
 	}
 
-	void Model::Builder::LoadModel(Primative primative, bool useIndices)
+	void Model::Builder::LoadModel(Primitive primative, bool useIndices, glm::vec3 colour)
 	{
-		primative(&vertices, useIndices ? &indices : nullptr);
+		primative(&vertices, useIndices ? &indices : nullptr, colour);
 	}
 
 }

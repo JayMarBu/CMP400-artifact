@@ -58,6 +58,7 @@ namespace JEngine
 		std::unique_ptr<GuiManager> m_imguiManager;
 
 		std::unique_ptr<SimpleRenderSystem> m_simpleRenderSystem;
+		std::unique_ptr<SimpleRenderSystem> m_simpleNoShadingRenderSystem;
 		std::unique_ptr<StaticLineRenderSystem> m_gizmoRenderSystem;
 
 		std::vector<GameObject> m_gameObjects;
@@ -65,7 +66,7 @@ namespace JEngine
 
 		Sampler m_sampler{m_device};
 
-		GizmoManager m_gizmoManager;
+		std::unique_ptr <GizmoManager> m_gizmoManager;
 
 		struct BoxMooreWrapper
 		{

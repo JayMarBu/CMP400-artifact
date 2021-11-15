@@ -14,7 +14,13 @@ namespace JEngine
 
 		// Methods ********************************************************************************
 	public:
-		SimpleRenderSystem(Device& _device, VkRenderPass _renderPass, VkDescriptorSetLayout descriptorSet);
+		SimpleRenderSystem(
+			Device& _device,
+			VkRenderPass _renderPass,
+			VkDescriptorSetLayout descriptorSet,
+			const std::string& vert_filepath,
+			const std::string& frag_filepath
+		);
 		~SimpleRenderSystem();
 
 		REMOVE_COPY_CONSTRUCTOR(SimpleRenderSystem);

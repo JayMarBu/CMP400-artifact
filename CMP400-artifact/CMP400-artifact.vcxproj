@@ -289,7 +289,7 @@
     <ClCompile Include="src\engine\graphics\Buffer.cpp" />
     <ClCompile Include="src\engine\graphics\Descriptors.cpp" />
     <ClCompile Include="src\engine\graphics\FrameInfo.cpp" />
-    <ClCompile Include="src\engine\graphics\models\Primatives.cpp" />
+    <ClCompile Include="src\engine\graphics\models\Primitives.cpp" />
     <ClCompile Include="src\engine\graphics\render systems\BaseRenderSystem.cpp" />
     <ClCompile Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.cpp" />
     <ClCompile Include="src\engine\graphics\render systems\debug\GizmoManager.cpp" />
@@ -347,7 +347,7 @@
     <ClInclude Include="src\engine\graphics\Buffer.h" />
     <ClInclude Include="src\engine\graphics\Descriptors.h" />
     <ClInclude Include="src\engine\graphics\FrameInfo.h" />
-    <ClInclude Include="src\engine\graphics\models\Primatives.h" />
+    <ClInclude Include="src\engine\graphics\models\Primitives.h" />
     <ClInclude Include="src\engine\graphics\render systems\BaseRenderSystem.h" />
     <ClInclude Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.h" />
     <ClInclude Include="src\engine\graphics\render systems\debug\GizmoManager.h" />
@@ -432,6 +432,30 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Identity).spv</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Identity).spv</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shaders\simple_no_shading\simple_shader.frag">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VULKAN_SDK)\Bin32\glslc.exe %(Identity) -o %(Identity).spv</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VULKAN_SDK)\Bin32\glslc.exe %(Identity) -o %(Identity).spv</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling Shader</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling Shader</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Identity).spv</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Identity).spv</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+    <CustomBuild Include="shaders\simple_no_shading\simple_shader.vert">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VULKAN_SDK)\Bin32\glslc.exe %(Identity) -o %(Identity).spv</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(VULKAN_SDK)\Bin32\glslc.exe %(Identity) -o %(Identity).spv</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling Shader</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling Shader</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Identity).spv</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Identity).spv</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
