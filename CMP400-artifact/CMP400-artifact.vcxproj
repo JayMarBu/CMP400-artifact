@@ -291,9 +291,9 @@
     <ClCompile Include="src\engine\graphics\FrameInfo.cpp" />
     <ClCompile Include="src\engine\graphics\models\Primitives.cpp" />
     <ClCompile Include="src\engine\graphics\render systems\BaseRenderSystem.cpp" />
-    <ClCompile Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.cpp" />
-    <ClCompile Include="src\engine\graphics\render systems\debug\GizmoManager.cpp" />
-    <ClCompile Include="src\engine\graphics\render systems\debug\StaticLineRenderSystem.cpp" />
+    <ClCompile Include="src\engine\graphics\render systems\gizmo\DynamicLineRenderSystem.cpp" />
+    <ClCompile Include="src\engine\graphics\render systems\gizmo\GizmoManager.cpp" />
+    <ClCompile Include="src\engine\graphics\render systems\gizmo\StaticLineRenderSystem.cpp" />
     <ClCompile Include="src\engine\graphics\Renderer.cpp" />
     <ClCompile Include="src\engine\graphics\render systems\SimpleRenderSystem.cpp" />
     <ClCompile Include="src\engine\graphics\textures\Sampler.cpp" />
@@ -349,9 +349,9 @@
     <ClInclude Include="src\engine\graphics\FrameInfo.h" />
     <ClInclude Include="src\engine\graphics\models\Primitives.h" />
     <ClInclude Include="src\engine\graphics\render systems\BaseRenderSystem.h" />
-    <ClInclude Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.h" />
-    <ClInclude Include="src\engine\graphics\render systems\debug\GizmoManager.h" />
-    <ClInclude Include="src\engine\graphics\render systems\debug\StaticLineRenderSystem.h" />
+    <ClInclude Include="src\engine\graphics\render systems\gizmo\DynamicLineRenderSystem.h" />
+    <ClInclude Include="src\engine\graphics\render systems\gizmo\GizmoManager.h" />
+    <ClInclude Include="src\engine\graphics\render systems\gizmo\StaticLineRenderSystem.h" />
     <ClInclude Include="src\engine\graphics\Renderer.h" />
     <ClInclude Include="src\engine\graphics\render systems\SimpleRenderSystem.h" />
     <ClInclude Include="src\engine\graphics\textures\Sampler.h" />

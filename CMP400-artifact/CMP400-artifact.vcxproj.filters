@@ -126,12 +126,6 @@
     <ClCompile Include="src\engine\graphics\render systems\BaseRenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\render systems\debug\GizmoManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\graphics\render systems\debug\StaticLineRenderSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="external\implot\implot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,10 +138,16 @@
     <ClCompile Include="src\engine\maths\Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.cpp">
+    <ClCompile Include="src\engine\graphics\models\Primitives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\graphics\models\Primitives.cpp">
+    <ClCompile Include="src\engine\graphics\render systems\gizmo\DynamicLineRenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\graphics\render systems\gizmo\GizmoManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\graphics\render systems\gizmo\StaticLineRenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -272,12 +272,6 @@
     <ClInclude Include="src\engine\graphics\render systems\BaseRenderSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\render systems\debug\GizmoManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\engine\graphics\render systems\debug\StaticLineRenderSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="external\implot\implot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -287,10 +281,16 @@
     <ClInclude Include="src\engine\maths\Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.h">
+    <ClInclude Include="src\engine\graphics\models\Primitives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\graphics\models\Primitives.h">
+    <ClInclude Include="src\engine\graphics\render systems\gizmo\DynamicLineRenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\render systems\gizmo\GizmoManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\graphics\render systems\gizmo\StaticLineRenderSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

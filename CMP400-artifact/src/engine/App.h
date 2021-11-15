@@ -13,14 +13,14 @@
 #include "engine/graphics/Buffer.h"
 
 #include "engine/graphics/render systems/SimpleRenderSystem.h"
-#include "engine/graphics/render systems/debug/StaticLineRenderSystem.h"
+#include "engine/graphics/render systems/gizmo/StaticLineRenderSystem.h"
 
 #include "engine/GuiManager.h"
 
 #include "engine/graphics/textures/TextureManager.h"
 #include "engine/graphics/textures/Sampler.h"
 
-#include "engine/graphics/render systems/debug/GizmoManager.h"
+#include "engine/graphics/render systems/gizmo/GizmoManager.h"
 
 namespace JEngine
 {
