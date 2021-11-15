@@ -16,6 +16,6 @@ layout(push_constant) uniform Push
 
 void main()
 {
-	//outColour = vec4(inTexCoord, 1.0);
-	outColour = texture(texSampler, inTexCoord);
+	outColour = vec4(inColour, 1.0);
+	//outColour = texture(texSampler, inTexCoord);
 }

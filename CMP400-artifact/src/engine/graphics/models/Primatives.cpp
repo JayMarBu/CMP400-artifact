@@ -157,5 +157,44 @@ namespace JEngine
 			}
 			
 		}
+
+		void Line(std::vector<Model::Vertex>* vertices, std::vector<uint32_t>* indices)
+		{
+			if (vertices == nullptr || indices == nullptr)
+				throw std::runtime_error("nullptr error, either vertex or index array are not present");
+
+			*vertices = {
+			{{0.f, 0.f, -0.01f},			COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 0
+			{{0.f, -1.f, -0.01f},			COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 1
+			{{0.0095106, 0.f, -0.0030902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 2
+			{{0.0095106, -1.f, -0.0030902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 3
+			{{0.0058779, 0.f, 0.0080902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 4
+			{{0.0058779, -1.f, 0.0080902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 5
+			{{-0.0058779, 0.f, 0.0080902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 6
+			{{-0.0058779, -1.f, 0.0080902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 7
+			{{-0.0095106, 0.f, -0.0030902},	COLOUR_WHITE, NORMAL(0,0,0),	{0,0}}, // 8
+			{{-0.0095106, -1.f, -0.0030902},COLOUR_WHITE, NORMAL(0,0,0),	{0,0} },// 9
+			};
+
+			*indices = {
+				1, 2, 0,
+				3, 4, 2,
+				5, 6, 4,
+				1, 9, 7,
+				7, 8, 6,
+				9, 0, 8,
+				2, 6, 8,
+				1, 3, 2,
+				3, 5, 4,
+				5, 7, 6,
+				5, 3, 7,
+				3, 1, 7,
+				7, 9, 8,
+				9, 1, 0,
+				8, 0, 2,
+				2, 4, 6,
+			};
+		}
+
 	}
 }

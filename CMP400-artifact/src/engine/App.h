@@ -74,6 +74,12 @@ namespace JEngine
 
 			std::vector<double> numsX;
 			std::vector<double> numsY;
+
+			void Reset()
+			{
+				numsX.clear();
+				numsY.clear();
+			}
 		};
 
 		BoxMooreWrapper m_example1;
@@ -102,6 +108,9 @@ namespace JEngine
 		void InitTextures();
 
 		void GenerateGui();
+		void BoxMooreExamples();
+		void BoxMooreExmpl1();
+
 	};
 
 }

@@ -43,6 +43,7 @@ namespace JEngine
 			);
 
 		m_gizmoManager.CreateCentreGrid(TWO_D);
+		m_gizmoManager.WriteToVertexBuffer();
 
 		m_example1.mean = 40;
 		m_example1.standardDeviation = 2;
@@ -113,12 +114,12 @@ namespace JEngine
 		m_camera.gObject.transform.translation = { 0.0f,0.0f,-5 };
 
 		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/obamium.obj");
-		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primatives::Cube, false);
+		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primatives::Line);
 
 		auto cube = GameObject::Create();
 
 		cube.model = model;
-		cube.transform.translation = { 0.f,0.f,-.5f };
+		cube.transform.translation = { 0.f,0.f,-.01f };
 		//cube.transform.scale = glm::vec3(0.1f);
 
 		m_gameObjects.push_back(std::move(cube));
@@ -150,8 +151,8 @@ namespace JEngine
 
 		GenerateGui();
 
-		//m_camera.controller.MoveInPlaneXZ(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
-		m_camera.controller.MoveInPlaneXY(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
+		m_camera.controller.MoveInPlaneXZ(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
+		//m_camera.controller.MoveInPlaneXY(&m_window, m_timer.getTime(), m_camera.gObject, &m_input);
 		m_camera.camera.SetViewXYZ(m_camera.gObject.transform.translation, m_camera.gObject.transform.rotation);
 
 		float aspect = m_renderer.GetAspectRatio();
@@ -213,84 +214,90 @@ namespace JEngine
 
 		m_camera.controller.DrawGui(m_camera.gObject);
 
-		if (ImGui::CollapsingHeader("box moore examples"))
-		{
-			ImGui::Indent(10);
-
-			if (ImGui::CollapsingHeader("box moore example 1: 2d distribution"))
-			{
-				ImGui::Indent(10);
-				static int NumGenerations = 1;
-				if (ImGui::InputInt("Number of Points Generated##int", &NumGenerations))
-				{
-					m_example1.numsX.clear();
-					m_example1.numsY.clear();
-				}
-
-				if (ImGui::InputFloat("Mean value", &m_example1.mean))
-				{
-					m_example1.numsX.clear();
-					m_example1.numsY.clear();
-				}
-				if(ImGui::InputFloat("standard deviation value", &m_example1.standardDeviation))
-				{
-					m_example1.numsX.clear();
-					m_example1.numsY.clear();
-				}
-
-				if (ImGui::Button("Generate Box-Moore value##button"))
-				{
-					for (int i = 0; i < NumGenerations; i++)
-					{
-						auto nums = maths::BoxMullerPair(m_example1.mean, m_example1.standardDeviation);
-						m_example1.numsX.push_back(nums.first);
-						m_example1.numsY.push_back(nums.second);
-					}
-				}
-
-
-				bool hasData = !m_example1.numsX.empty() && !m_example1.numsY.empty();
-
-				if (ImPlot::BeginPlot("test plot"))
-				{
-					if (hasData)
-					{
-						ImPlot::PlotScatter("box-moore scatter", m_example1.numsX.data(), m_example1.numsY.data(), static_cast<uint32_t>(m_example1.numsX.size()));
-					}
-					ImPlot::EndPlot();
-				}
-
-				ImGui::Columns(2, "##example_1 columns");
-
-				if (ImPlot::BeginPlot("test plot 2 x"))
-				{
-					if (hasData)
-					{
-						ImPlot::PlotHistogram("box-moore histogram", m_example1.numsX.data(), m_example1.numsX.size());
-					}
-					ImPlot::EndPlot();
-				}
-
-				ImGui::NextColumn();
-
-
-				if (ImPlot::BeginPlot("test plot 2 y"))
-				{
-					if (hasData)
-					{
-						ImPlot::PlotHistogram("box-moore histogram", m_example1.numsY.data(), m_example1.numsY.size());
-					}
-					ImPlot::EndPlot();
-				}
-				ImGui::Columns();
-				ImGui::Indent(-10);
-			}
-
-			ImGui::Indent(-10);
-		}
+		BoxMooreExamples();
 
 		ImGui::End();
 	}
+
+	void App::BoxMooreExamples()
+	{
+		if (ImGui::CollapsingHeader("Box-Moore examples"))
+		{
+			ImGui::Indent(10);
+
+			BoxMooreExmpl1();
+
+			ImGui::Indent(-10);
+		}
+	}
+
+	void App::BoxMooreExmpl1()
+	{
+		if (ImGui::CollapsingHeader("box moore example 1: 2d distribution"))
+		{
+			ImGui::Indent(10);
+			static int NumGenerations = 1;
+			bool hasData = !m_example1.numsX.empty() && !m_example1.numsY.empty();
+
+			// ****** editable parameters ****** 
+			if (ImGui::InputInt("Number of Points Generated##int", &NumGenerations)) m_example1.Reset();
+			if (ImGui::InputFloat("Mean value", &m_example1.mean)) m_example1.Reset();
+			if (ImGui::InputFloat("standard deviation value", &m_example1.standardDeviation)) m_example1.Reset();
+
+			// ****** buttons ****** 
+			ImGui::Text(("data point count: " + std::to_string(m_example1.numsX.size())).c_str());
+			ImGui::Columns(2, "##example_1 columns buttons");
+			if (ImGui::Button("Generate Box-Moore value##button"))
+			{
+				for (int i = 0; i < NumGenerations; i++)
+				{
+					auto nums = maths::BoxMuller2D(m_example1.mean, m_example1.standardDeviation);
+					m_example1.numsX.push_back(nums.first);
+					m_example1.numsY.push_back(nums.second);
+				}
+			}
+
+			ImGui::NextColumn();
+			if (ImGui::Button("Clear List##button")) m_example1.Reset();
+			ImGui::Columns();
+
+			// ****** plots ****** 
+			if (ImPlot::BeginPlot("test plot"))
+			{
+				if (hasData)
+				{
+					ImPlot::PlotScatter("box-moore scatter", m_example1.numsX.data(), m_example1.numsY.data(), static_cast<uint32_t>(m_example1.numsX.size()));
+				}
+				ImPlot::EndPlot();
+			}
+
+			ImGui::Columns(2, "##example_1 columns");
+
+			if (ImPlot::BeginPlot("test plot 2 x"))
+			{
+				if (hasData)
+				{
+					ImPlot::PlotHistogram("box-moore histogram", m_example1.numsX.data(), m_example1.numsX.size());
+				}
+				ImPlot::EndPlot();
+			}
+
+			ImGui::NextColumn();
+
+
+			if (ImPlot::BeginPlot("test plot 2 y"))
+			{
+				if (hasData)
+				{
+					ImPlot::PlotHistogram("box-moore histogram", m_example1.numsY.data(), m_example1.numsY.size());
+				}
+				ImPlot::EndPlot();
+			}
+			ImGui::Columns();
+			ImGui::Indent(-10);
+		}
+	}
+
 }
 
 

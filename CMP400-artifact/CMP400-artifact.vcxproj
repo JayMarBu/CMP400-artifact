@@ -291,6 +291,7 @@
     <ClCompile Include="src\engine\graphics\FrameInfo.cpp" />
     <ClCompile Include="src\engine\graphics\models\Primatives.cpp" />
     <ClCompile Include="src\engine\graphics\render systems\BaseRenderSystem.cpp" />
+    <ClCompile Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.cpp" />
     <ClCompile Include="src\engine\graphics\render systems\debug\GizmoManager.cpp" />
     <ClCompile Include="src\engine\graphics\render systems\debug\StaticLineRenderSystem.cpp" />
     <ClCompile Include="src\engine\graphics\Renderer.cpp" />
@@ -348,6 +349,7 @@
     <ClInclude Include="src\engine\graphics\FrameInfo.h" />
     <ClInclude Include="src\engine\graphics\models\Primatives.h" />
     <ClInclude Include="src\engine\graphics\render systems\BaseRenderSystem.h" />
+    <ClInclude Include="src\engine\graphics\render systems\debug\DynamicLineRenderSystem.h" />
     <ClInclude Include="src\engine\graphics\render systems\debug\GizmoManager.h" />
     <ClInclude Include="src\engine\graphics\render systems\debug\StaticLineRenderSystem.h" />
     <ClInclude Include="src\engine\graphics\Renderer.h" />
