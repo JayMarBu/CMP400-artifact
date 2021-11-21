@@ -5,7 +5,7 @@
 
 #include "engine/graphics/models/Primitives.h"
 
-#include "engine/maths/Random.h"
+#include "engine/algorithms/Random.h"
 
 namespace JEngine
 {
@@ -49,6 +49,11 @@ namespace JEngine
 
 		m_example1.mean = 40;
 		m_example1.standardDeviation = 2;
+
+		m_lsystem = LSystem("A");
+		m_lsystem.AddRule('A', "ABA").AddRule('B', "BBB");
+
+		//m_lightningDemo.lsystem = LSystem("A");
 
 		InitGameObjects();
 		InitTextures();
@@ -126,8 +131,10 @@ namespace JEngine
 	{
 		m_camera.gObject.transform.translation = { 0.0f,0.0f,-5 };
 
+		m_camera.controller.moveSpeed = 5;
+
 		//std::shared_ptr<Model> model = Model::CreateModelFromFile(m_device, "models/obamium.obj");
-		std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primitives::Cube, false);
+		/*std::shared_ptr<Model> model = Model::CreateModelFromPrimative(m_device, Primitives::Cube, false);
 
 		auto cube = GameObject::Create();
 
@@ -136,13 +143,13 @@ namespace JEngine
 
 		m_gameObjects.push_back(std::move(cube));
 
-		auto line = GameObject::Create();
+		auto line = GameObject::Create();*/
 
-		m_gizmoManager->CreateLineObj(line, { 0.5,0,0 }, { 0,0,90 }, 2, 3, {1,0,0});
+		//m_gizmoManager->CreateLineObj(line, { 0.5,0,0 }, { 0,0,90 }, 2, 3, {1,0,0});
 
-		line.transform.parent = &m_gameObjects[0].transform;
+		//line.transform.parent = &m_gameObjects[0].transform;
 		
-		m_gizmoManager->linesObjs.push_back(std::move(line));
+		//m_gizmoManager->linesObjs.push_back(std::move(line));
 	}
 
 	// Run method *********************************************************************************
@@ -184,10 +191,10 @@ namespace JEngine
 
 		// ********** update game objects **********
 
-		GameObject* obj = &m_gameObjects[0];
+		//GameObject* obj = &m_gameObjects[0];
 
-		obj->transform.rotation.y = glm::mod(obj->transform.rotation.y + (1.0f*m_timer.getTime()), glm::two_pi<float>());
-		obj->transform.rotation.x = glm::mod(obj->transform.rotation.x + (0.1f*m_timer.getTime()), glm::two_pi<float>());
+		//obj->transform.rotation.y = glm::mod(obj->transform.rotation.y + (1.0f*m_timer.getTime()), glm::two_pi<float>());
+		//obj->transform.rotation.x = glm::mod(obj->transform.rotation.x + (0.1f*m_timer.getTime()), glm::two_pi<float>());
 
 	}
 
@@ -222,6 +229,9 @@ namespace JEngine
 
 		m_gizmoRenderSystem->RenderGizmos(fInfo, *m_gizmoManager);
 
+		if(m_jitterAndFork)
+			m_gizmoRenderSystem->RenderGizmos(fInfo, *m_jitterAndFork, false);
+
 		// stop rendering your stuff
 		m_imguiManager->render(commandBuffer);
 		m_renderer.EndSwapChainRenderPass(commandBuffer);
@@ -247,6 +257,8 @@ namespace JEngine
 		m_camera.controller.DrawGui(m_camera.gObject);
 
 		BoxMooreExamples();
+
+		LSystemGui();
 
 		ImGui::End();
 	}
@@ -328,6 +340,62 @@ namespace JEngine
 			ImGui::Columns();
 			ImGui::Indent(-10);
 		}
+	}
+
+	void App::LSystemGui()
+	{
+		if (!ImGui::CollapsingHeader("LSystemExamples##_lsystem"))
+			return;
+
+		ImGui::Indent(10);
+		
+		if (ImGui::CollapsingHeader("Example 1##_lsystem"))
+		{
+			ImGui::Indent(10);
+			if (ImGui::Button("button##_lsystem"))
+			{
+				m_lsystem.Iterate();
+			}
+
+			ImGui::TextWrapped(("current system: " + m_lsystem.GetCurrentSystem()).c_str());
+			ImGui::Indent(-10);
+		}
+
+		if (ImGui::CollapsingHeader("Example 2##_lsystem"))
+		{
+			ImGui::Indent(10);
+			ImGui::InputFloat("Angle##ex2_lsystem", &m_lightningDemo.angle);
+			ImGui::InputFloat("standard deviation##ex2_lsystem", &m_lightningDemo.stdDev);
+			ImGui::InputInt("Iterations##ex2_lsystem", &m_lightningDemo.iterations);
+
+			if (ImGui::Checkbox("Display Debug Lines##ex2_lsystem", &m_lightningDemo.displayDebugLines))
+			{
+				if (m_jitterAndFork)
+					m_jitterAndFork->displayDebugLines = m_lightningDemo.displayDebugLines;
+			}
+
+			if (ImGui::Button("generate lightning##_lsystem"))
+			{
+				BuildLightning();
+			}
+			ImGui::Indent(-10);
+		}
+
+		
+		ImGui::Indent(-10);
+	}
+
+	void App::BuildLightning()
+	{
+		m_jitterAndFork = JitterAndFork::Builder(m_device)
+			.SetAngle(m_lightningDemo.angle)
+			.SetAngleDeviation(m_lightningDemo.stdDev)
+			.SetStartPos({ 0,-10,-0.1 })
+			.SetEndPos({ 0,0,-0.1 })
+			.SetIterations(m_lightningDemo.iterations)
+			.Build();
+
+		m_jitterAndFork->displayDebugLines = m_lightningDemo.displayDebugLines;
 	}
 
 }

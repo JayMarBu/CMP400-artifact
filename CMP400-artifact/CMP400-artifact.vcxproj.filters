@@ -135,9 +135,6 @@
     <ClCompile Include="external\implot\implot_items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\maths\Random.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\graphics\models\Primitives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -148,6 +145,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\graphics\render systems\gizmo\StaticLineRenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\system\GuiLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\algorithms\LSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\algorithms\Random.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\jitter_and_fork\JitterAndFork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\algorithms\Interpolate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -278,9 +290,6 @@
     <ClInclude Include="external\implot\implot_internal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\maths\Random.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\graphics\models\Primitives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -291,6 +300,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\engine\graphics\render systems\gizmo\StaticLineRenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\system\GuiLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\algorithms\LSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\algorithms\Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\jitter_and_fork\JitterAndFork.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\algorithms\Interpolate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

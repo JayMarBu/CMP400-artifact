@@ -70,6 +70,7 @@ namespace JEngine
 
 		void CreateLineObj(GameObject& gObj, glm::vec3 pos, glm::vec3 direction, float length, float lineWidth = 1, glm::vec3 colour = {1,1,1});
 		void SetLineObjColour(GameObject& gObj, glm::vec3 colour);
+		glm::vec3 GetLineObjOffset(GameObject& gObj);
 
 	private:
 		void CreateVertexBuffer();

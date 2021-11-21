@@ -3,6 +3,7 @@
 
 // Containers *************************************************************************************
 #include <vector>
+#include <map>
 #include <unordered_map>
 #include <string>
 #include <set>
@@ -24,6 +25,7 @@
 #include <cmath>
 #include <random>
 #include <utility>
+#include <cstdarg>
 
 // Vulkan *****************************************************************************************
 #include <vulkan/vulkan.h>

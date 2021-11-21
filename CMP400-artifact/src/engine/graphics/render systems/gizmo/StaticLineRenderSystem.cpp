@@ -2,6 +2,7 @@
 #include "engine/graphics/render systems/gizmo/StaticLineRenderSystem.h"
 #include "engine/graphics/SwapChain.h"
 #include "engine/graphics/render systems/gizmo/GizmoManager.h"
+#include "jitter_and_fork/JitterAndFork.h"
 
 namespace JEngine
 {
@@ -171,33 +172,63 @@ namespace JEngine
 		}
 	}
 
-	void StaticLineRenderSystem::RenderGizmos(FrameInfo& fInfo, GizmoManager& gizmoManager)
+	void StaticLineRenderSystem::RenderGizmos(FrameInfo& fInfo, GizmoManager& gizmoManager, bool notBound)
 	{
 		//gizmoManager.WriteToVertexBuffer();
+		if (notBound)
+		{
+			UBO ubo{};
+			ubo.projectionView = fInfo.camera.GetProjection() * fInfo.camera.GetView();
 
-		UBO ubo{};
-		ubo.projectionView = fInfo.camera.GetProjection() * fInfo.camera.GetView();
+			m_UBObuffers[fInfo.frameIndex]->WriteToBuffer(&ubo);
+			m_UBObuffers[fInfo.frameIndex]->Flush();
 
-		m_UBObuffers[fInfo.frameIndex]->WriteToBuffer(&ubo);
-		m_UBObuffers[fInfo.frameIndex]->Flush();
+			m_pipeline->Bind(fInfo.commandBuffer);
 
-		m_pipeline->Bind(fInfo.commandBuffer);
-
-		vkCmdBindDescriptorSets(
-			fInfo.commandBuffer,
-			VK_PIPELINE_BIND_POINT_GRAPHICS,
-			m_pipelineLayout,
-			0, 1,
-			&m_descriptorSets[fInfo.frameIndex],
-			0, nullptr
-		);
-
+			vkCmdBindDescriptorSets(
+				fInfo.commandBuffer,
+				VK_PIPELINE_BIND_POINT_GRAPHICS,
+				m_pipelineLayout,
+				0, 1,
+				&m_descriptorSets[fInfo.frameIndex],
+				0, nullptr
+			);
+		}
 		gizmoManager.Bind(fInfo.commandBuffer);
 		gizmoManager.Draw(fInfo.commandBuffer);
 
 		// bind vertex data
 		// draw vertex data
 
+	}
+
+	void StaticLineRenderSystem::RenderGizmos(FrameInfo& fInfo, JitterAndFork& jandf, bool notBound)
+	{
+		if (notBound)
+		{
+			UBO ubo{};
+			ubo.projectionView = fInfo.camera.GetProjection() * fInfo.camera.GetView();
+
+			m_UBObuffers[fInfo.frameIndex]->WriteToBuffer(&ubo);
+			m_UBObuffers[fInfo.frameIndex]->Flush();
+
+			m_pipeline->Bind(fInfo.commandBuffer);
+
+			vkCmdBindDescriptorSets(
+				fInfo.commandBuffer,
+				VK_PIPELINE_BIND_POINT_GRAPHICS,
+				m_pipelineLayout,
+				0, 1,
+				&m_descriptorSets[fInfo.frameIndex],
+				0, nullptr
+			);
+		}
+
+		if (jandf.displayDebugLines && jandf.CanDrawDebugLines())
+			jandf.DebugBindAndDraw(fInfo.commandBuffer);
+
+		jandf.Bind(fInfo.commandBuffer);
+		jandf.Draw(fInfo.commandBuffer);
 	}
 
 }

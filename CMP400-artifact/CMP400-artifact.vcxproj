@@ -284,6 +284,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="external\tinyobjloader\tiny_obj_loader.cc" />
+    <ClCompile Include="src\engine\algorithms\Interpolate.cpp" />
     <ClCompile Include="src\engine\App.cpp" />
     <ClCompile Include="src\engine\Camera.cpp" />
     <ClCompile Include="src\engine\graphics\Buffer.cpp" />
@@ -307,9 +308,12 @@
     <ClCompile Include="src\engine\graphics\Pipeline.cpp" />
     <ClCompile Include="src\engine\graphics\SwapChain.cpp" />
     <ClCompile Include="src\engine\system\FrameTimer.cpp" />
+    <ClCompile Include="src\engine\system\GuiLog.cpp" />
     <ClCompile Include="src\engine\system\Input.cpp" />
+    <ClCompile Include="src\engine\algorithms\LSystem.cpp" />
+    <ClCompile Include="src\jitter_and_fork\JitterAndFork.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\engine\maths\Random.cpp" />
+    <ClCompile Include="src\engine\algorithms\Random.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -342,6 +346,7 @@
     <ClInclude Include="external\implot\implot_internal.h" />
     <ClInclude Include="external\stb\stb_image.h" />
     <ClInclude Include="external\tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="src\engine\algorithms\Interpolate.h" />
     <ClInclude Include="src\engine\App.h" />
     <ClInclude Include="src\engine\Camera.h" />
     <ClInclude Include="src\engine\graphics\Buffer.h" />
@@ -365,8 +370,11 @@
     <ClInclude Include="src\engine\graphics\SwapChain.h" />
     <ClInclude Include="src\engine\system\FrameTimer.h" />
     <ClInclude Include="src\engine\KeyboardMovementController.h" />
+    <ClInclude Include="src\engine\system\GuiLog.h" />
     <ClInclude Include="src\engine\system\Input.h" />
-    <ClInclude Include="src\engine\maths\Random.h" />
+    <ClInclude Include="src\engine\algorithms\Random.h" />
+    <ClInclude Include="src\engine\algorithms\LSystem.h" />
+    <ClInclude Include="src\jitter_and_fork\JitterAndFork.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\engine\system\Window.h" />
     <ClInclude Include="src\utils\Utils.h" />

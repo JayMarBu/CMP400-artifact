@@ -61,7 +61,7 @@ namespace JEngine
 
 			SimplePushConstantData pushData{};
 
-			pushData.modelMatrix = obj.transform;
+			pushData.modelMatrix = obj.transform.positionRotMat() * obj.transform.scaleMat();
 			pushData.normalMatrix = obj.transform.normalMatrix();
 
 			vkCmdPushConstants(

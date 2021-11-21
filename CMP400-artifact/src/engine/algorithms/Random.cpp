@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "engine/maths/Random.h"
+#include "engine/algorithms/Random.h"
 
 namespace JEngine
 {

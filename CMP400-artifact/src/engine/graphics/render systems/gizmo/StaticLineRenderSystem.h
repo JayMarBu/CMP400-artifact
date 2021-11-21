@@ -8,6 +8,7 @@
 namespace JEngine
 {
 	class GizmoManager;
+	class JitterAndFork;
 
 	class StaticLineRenderSystem : public BaseRenderSystem
 	{
@@ -53,6 +54,7 @@ namespace JEngine
 
 		REMOVE_COPY_CONSTRUCTOR(StaticLineRenderSystem);
 
-		void RenderGizmos(FrameInfo& fInfo, GizmoManager& gizmoManager);
+		void RenderGizmos(FrameInfo& fInfo, GizmoManager& gizmoManager, bool notBound = true);
+		void RenderGizmos(FrameInfo& fInfo, JitterAndFork& gizmoManager, bool notBound = true);
 	};
 }

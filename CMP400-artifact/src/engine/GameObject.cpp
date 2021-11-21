@@ -89,4 +89,44 @@ namespace JEngine
 			} };
 	}
 
+	glm::mat4 CTransform::positionRotMat()
+	{
+		const float c3 = glm::cos(rotation.z);
+		const float s3 = glm::sin(rotation.z);
+		const float c2 = glm::cos(rotation.x);
+		const float s2 = glm::sin(rotation.x);
+		const float c1 = glm::cos(rotation.y);
+		const float s1 = glm::sin(rotation.y);
+		glm::mat4 mat{
+			{
+				(c1 * c3 + s1 * s2 * s3),
+				(c2 * s3),
+				(c1 * s2 * s3 - c3 * s1),
+				0.0f,
+			},
+			{
+				(c3 * s1 * s2 - c1 * s3),
+				(c2 * c3),
+				(c1 * c3 * s2 + s1 * s3),
+				0.0f,
+			},
+			{
+				(c2 * s1),
+				(-s2),
+				(c1 * c2),
+				0.0f,
+			},
+			{translation.x, translation.y, translation.z, 1.0f} };
+
+		if (parent == nullptr)
+			return mat;
+
+		return parent->positionRotMat() * mat;
+	}
+
+	glm::mat4 CTransform::scaleMat()
+	{
+		return glm::scale(glm::mat4{ 1 }, scale);
+	}
+
 }

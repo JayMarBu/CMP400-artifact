@@ -19,10 +19,12 @@ namespace JEngine
 
 		glm::mat3 normalMatrix();
 
+		glm::mat4 positionRotMat();
+
+		glm::mat4 scaleMat();
+
 		operator glm::mat4() { return mat4(); }
 	};
-
-
 
 	class GameObject
 	{

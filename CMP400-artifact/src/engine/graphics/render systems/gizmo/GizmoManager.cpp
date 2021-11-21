@@ -94,12 +94,14 @@ namespace JEngine
 
 		m_vertexCount = static_cast<uint32_t>(vertices.size());
 
+		m_bufferSize = sizeof(vertices[0]) * m_vertexCount;
+
 		uint32_t vertexSize = sizeof(StaticLineRenderSystem::Vertex);
 
 		Buffer stagingBuffer(
 			m_device,
 			vertexSize,
-			m_bufferSize,
+			m_vertexCount,
 			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
 			);
@@ -172,6 +174,28 @@ namespace JEngine
 
 	void GizmoManager::SetLineObjColour(GameObject& gObj, glm::vec3 colour)
 	{
+	}
+
+	glm::vec3 GizmoManager::GetLineObjOffset(GameObject& gObj)
+	{
+		float length = gObj.transform.scale.y;
+		float theta = glm::degrees(gObj.transform.rotation.z);
+
+		if (theta > 90 && theta < 180)
+		{
+			theta = 180 - theta;
+		}
+		else if (theta > 180 && theta < 270)
+		{
+			theta = theta - 180;
+		}
+
+		float theta_r = glm::radians(theta);
+		float y = length * glm::cos(theta_r);
+		float x = length * glm::sin(theta_r);
+
+		return { x,y,0 };
+
 	}
 
 }

@@ -22,6 +22,10 @@
 
 #include "engine/graphics/render systems/gizmo/GizmoManager.h"
 
+#include "engine/algorithms/LSystem.h"
+
+#include "jitter_and_fork/JitterAndFork.h"
+
 namespace JEngine
 {
 	struct CameraWrapper
@@ -67,6 +71,7 @@ namespace JEngine
 		Sampler m_sampler{m_device};
 
 		std::unique_ptr <GizmoManager> m_gizmoManager;
+		std::unique_ptr<JitterAndFork> m_jitterAndFork;
 
 		struct BoxMooreWrapper
 		{
@@ -85,8 +90,18 @@ namespace JEngine
 
 		BoxMooreWrapper m_example1;
 
-		//std::vector<double> m_boxMooreNumsX;
-		//std::vector<double> m_boxMooreNumsY;
+		LSystem m_lsystem;
+
+		struct LightningDemoWrapper
+		{
+			int iterations = 1;
+			float angle = 40;
+			float stdDev = 12;
+			bool displayDebugLines = false;
+		};
+
+		LightningDemoWrapper m_lightningDemo;
+
 
 		// Methods ********************************************************************************
 	public:
@@ -111,6 +126,10 @@ namespace JEngine
 		void GenerateGui();
 		void BoxMooreExamples();
 		void BoxMooreExmpl1();
+
+		void LSystemGui();
+
+		void BuildLightning();
 
 	};
 
