@@ -146,15 +146,6 @@ namespace JEngine
 
 		currentLayerLines.push_back(line);
 
-		const glm::vec3 colours[5] =
-		{
-			{1,0,0},
-			{0,1,0},
-			{0,0,1},
-			{1,1,0},
-			{1,1,1}
-		};
-
 		for (int i = 0; i < m_iterations; i++)
 		{
 			previousLayerLines = currentLayerLines;
@@ -175,22 +166,21 @@ namespace JEngine
 				// Jitter
 				float length = CalculateBaseLength(startPos, endPos);
 
+				// TODO: something funky is happening with these angles
 				float angle = maths::BoxMullerMarsagliaPolar(m_angle, m_stdDev) - m_angle;
 				float seg_len = CalculateSegmentLength(length, angle);
 
 				glm::vec3 splitPos = CalculateSplitPoint(startPos, seg_len, (counter == 0) ? angle+base_angle : angle-base_angle);
 				
+				// Fork
+				glm::vec3 fork_pos = CalculateSplitPoint(splitPos, seg_len * 0.5, (counter == 0) ? (2 * angle) - base_angle : (2 * angle) + base_angle);
+
+
 				// Build Lines
 				LineSegment lines[3]{};
 
 				lines[0].SetByPosition(startPos, splitPos).SetColour(colour);
 				lines[1].SetByPosition(splitPos, endPos).SetColour(colour);
-
-				// Fork
-
-				float fork_angle = maths::BoxMullerMarsagliaPolar(m_angle, m_stdDev) - m_angle;
-				glm::vec3 fork_pos = CalculateSplitPoint(splitPos, seg_len*0.5, (counter == 0) ? (2*angle) - base_angle : (2*angle) + base_angle);
-
 				lines[2].SetByPosition(splitPos, fork_pos).SetColour(fork_colour);
 
 				currentLayerLines.push_back(lines[0]);
