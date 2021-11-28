@@ -14,7 +14,7 @@ namespace JEngine
 			constexpr T two_pi = glm::two_pi<T>();
 
 			//initialize the random uniform number generator (runif) in a range 0 to 1
-			static std::mt19937 rng(std::random_device{}()); // Standard mersenne_twister_engine seeded with rd()
+			static std::mt19937 rng(std::random_device{}()); 
 			static std::uniform_real_distribution<> runif(0.0, 1.0);
 
 			//create two random numbers, make sure u1 is greater than epsilon

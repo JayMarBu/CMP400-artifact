@@ -123,11 +123,22 @@ namespace JEngine
 			ImGui::Checkbox("show Controls##bool", &showControls);
 			if (showControls)
 			{
-				ImGui::Text("Camera Controls:");
-				ImGui::Text("\tWASD to move.");
-				ImGui::Text("\tRight click and drag to turn");
-				ImGui::Text("\tSpace to ascend");
-				ImGui::Text("\tQ to descend");
+				if (two_D)
+				{
+					ImGui::Text("Camera Controls:");
+					ImGui::Text("\tWASD to move.");
+					ImGui::Text("\tHold mouse to edge of window to pan");
+					ImGui::Text("\tE to zoom out");
+					ImGui::Text("\tQ to zoom in");
+				}
+				else
+				{
+					ImGui::Text("Camera Controls:");
+					ImGui::Text("\tWASD to move.");
+					ImGui::Text("\tRight click and drag to turn");
+					ImGui::Text("\tSpace to ascend");
+					ImGui::Text("\tQ to descend");
+				}
 			}
 
 			if (ImGui::Checkbox("2d camera controls##bool", &two_D))
